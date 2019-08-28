@@ -1,0 +1,38 @@
+El método de Newton Raphson es un método de aproximación lineal donde miramos la derivada (el jacobiano) en un punto, y buscamos el punto de corte de esta tangente con el 0
+
+El polinomio de taylor de orden 1 en el punto $x^((k))$, con $F$ diferenciable en $x^{(k)}$ es:
+
+F(x) = F(x^{(k)}) + J_F(x^{(k)})(x-x^{(k)})+O(\left \| x-x^{(k)} \right \|^2)
+
+truncando el término O(\left \| x-x^{(k)} \right \|^2) y resolviendo F(x) \approx  0 tenemos
+
+\begin{cases}
+ & x^{(k+1)} = x^{(k)} - J_F(x^{(k)})^{-1} * F(x^{(k)}) \\
+ & x^{(0)}  \in \mathbb{R}^n
+\end{cases}
+
+El determinante de $J_F$ debe ser no nulo para poder invertir la matriz.
+
+El método de Newton rhapson consiste en iterar este proceso, aproximándonos a la solución con cada paso
+
+\begin{algorithm}[H]
+\small
+\centering
+\begin{algorithmic}[1]
+\Require $G=(T\cup S,E)$,$c(e),d(e) \forall e \in E$,
+\State {$\mathcal{C} \leftarrow Christofides(G,c)$ }
+\State {$L \leftarrow \emptyset$, $I \leftarrow T$, $E^{\prime} \leftarrow E(\mathcal{C})$, $J \leftarrow T$}
+\State {$F \leftarrow (L\cup I,E^{\prime})$}
+%\Comment {Introduce Steiner nodes to the Backbone if the cost is reduced:}
+\While{$|J| \geq 3$}
+    \If {there are  $s \in S$, $(t,v),(v,w)\in F$: $c(t,v)+c(v,w)>d(v,s)+c(t,s)+c(s,w)$}
+            \State {$L \leftarrow L\cup \{v\}$, $I \leftarrow I \cup \{s\}\:  \backslash\: \{v\}$, $J \leftarrow J \backslash \{t,v\}$ }
+            \State {$E^{\prime} \leftarrow E^{\prime} \cup \{(t,s),(s,v),(s,w)\}\:\backslash\: \{(t,v),(v,w)\} $ }
+         \Else
+           \State {$J \leftarrow J \:\backslash\: \{t\}$}
+    \EndIf
+\EndWhile \\
+\Return $F=(I\cup L,E^{\prime})$
+\end{algorithmic}
+\end{algorithm}
+
