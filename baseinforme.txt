@@ -67,4 +67,5 @@ para factorizar A como CC^{t} , se hace cambio de variable L=C^{t} y L^{t}=C de 
 por lo tanto el orden total es (\frac{1}{3})n^{3} + 2n^{2} \approx (\frac{1}{3})n^{3} 
 
 3.4
+el Newton Raphson tiene k iteraciones en cada una se resuelve el sistema lineal con Cholesky que es de orden (\frac{1}{3})n^{3}  por lo tanto el orden de NR utilizand Cholesky es de  (\frac{k}{3})n^{3}
 
