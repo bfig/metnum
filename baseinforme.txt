@@ -1,3 +1,65 @@
+%Ej1.2
+\subsection{Hallar $Q$ y $b$}
+Comentario: Aca se muestra el desarrollo de como se llega a $Q$ y $b$.
+Sean $Q \in \mathbb{R}^{2\times2}$ y $b \in \mathbb{R}^{2\times1}$ tales que
+
+\begin{equation*}
+    Q = \begin{pmatrix} q_{11} & q_{12} \\ q_{21} & q_{22} \end{pmatrix}
+\end{equation*}
+
+\begin{equation*}
+    b = \begin{pmatrix} b_1 \\ b_2 \end{pmatrix}
+\end{equation*}
+
+
+Sea $f(z) = (z^{T}Qz - 2b^{T}z) + 2e^{x+y}$ con $z = (x,y)^T \in \mathbb{R}^{2\times1}$.
+Desarrollando esta expresion se llega a
+$f(x,y) = q_{11}x^2 + q_{22}y^2 + (q_{12} + q_{21})xy - 2b_1x - 2b_2y + 2e^{x+y}$
+
+Para que esta expresion sea igual a (1), se tiene que
+$q_{11} = 1$ $q_{12 + q_{21} = -\frac{2}{3}}$ $q_{22} = 3$ $b_1 = -1$ $b_2 = 2$
+
+Como se vera mas adelante resulta conveniente elegir $q_{12} = q_{21} = -\frac{1}{3}$.
+
+De esta forma, se tiene que
+$Q =  \begin{pmatrix} 1 & -\frac{1}{3} \\ -\frac{1}{3} & 3\end{pmatrix} $
+y
+$b = \begin{pmatrix} -1\\ 2 \end{pmatrix}$
+
+\begin{equation}
+    f(z) = (z^{T}Qz - 2b^{T}z) + 2e^{x+y}, z = (x,y) \in \mathbb{R}^{2\times1}
+\end{equation}
+
+%Ej1.3
+\subsection{Expresion matricial para puntos criticos}
+Comentario: Aca se muestra el desarrollo de como se llega a expresar la ec de puntos criticos en forma matricial.
+
+Para resolver este ejercicio, se calcula el gradiente de f y se desarrolla la expresion de F(z), mostrando que se
+llega a la misma expresion.
+
+$\nabla f = \left( \frac{\partial f}{\partial x}, \frac{\partial f}{\partial y} \right)$
+
+\begin{equation}
+    \nabla f = \left( \frac{\partial f}{\partial x}, \frac{\partial f}{\partial y} \right)
+    =
+    \left( 2x - \frac{2}{3}y + 2 + 2e^{x+y}, 6y - \frac{2}{3}x - 4 + 2e^{x+y} \right) = (0,0)
+\end{equation}
+
+\begin{align}
+    F(z) &= (Qz - b) + \left(\begin{matrix} 1\\1 \end{matrix}\right)e^{x+y}
+    \\
+    F(z) &= \begin{pmatrix} 1 & -\frac{1}{3} \\ -\frac{1}{3} & 3\end{pmatrix} \begin{pmatrix} x\\y \end{pmatrix}
+            -\begin{pmatrix} -1\\2 \end{pmatrix} + \begin{pmatrix} e^{x+y}\\e^{x+y} \end{pmatrix}
+    \\
+    F(z) &= \begin{pmatrix} x -\frac{1}{3}y + 1 +e^{x+y} \\ -\frac{1}{3}x + 3y - 2 +e^{x+y} \end{pmatrix} = \begin{pmatrix} 0\\0 \end{pmatrix}
+\end{align}
+
+%Ej1.4
+\subsection{Hallar a mano los puntos criticos}
+Aca se muestra alguna imagen y una tabla de valores x,y f y F = grad(f).
+
+Ej 2.1
+
 El método de Newton Raphson es un método de aproximación lineal donde miramos la derivada (el jacobiano) en un punto, y buscamos el punto de corte de esta tangente con el 0
 
 El polinomio de taylor de orden 1 en el punto $x^((k))$, con $F$ diferenciable en $x^{(k)}$ es:
@@ -36,7 +98,44 @@ El método de Newton rhapson consiste en iterar este proceso, aproximándonos a 
 \end{algorithmic}
 \end{algorithm}
 
+%Ej2.2
+\subsection{Expresion matricial para la matriz jacobiana de la funcion F}
+Al igual que en la parte 1.3, se resuelve el ejercicio hallando la matriz jacobiana de F, se desarrolla
+la expresion matricial y se muestra que con ambas se obtiene la misma expresion.
 
+\begin{equation}
+    F(x,y) = \left( 2x - \frac{2}{3}y + 2 + 2e^{x+y}, 6y - \frac{2}{3}x - 4 + 2e^{x+y} \right)
+\end{equation}
+
+\begin{equation}
+    \mathbb{J}_F(x,y) =
+    \begin{pmatrix}
+        \frac{\partial F_1}{\partial x} & \frac{\partial F_1}{\partial y} \\
+        \frac{\partial F_2}{\partial x} & \frac{\partial F_2}{\partial y}
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        1 + e^{x+y} & -\frac{1}{3} + e^{x+y} \\
+        -\frac{1}{3} + e^{x+y} & 3 + e^{x+y}
+    \end{pmatrix}
+\end{equation}
+
+$\mathbb{J}_F(x,y) = Q + aa^T$, con $a(x,y) = \begin{pmatrix} 1\\1 \end{pmatrix}\sqrt{e^{x+y}} \in \mathbb{R}^{2 \times 1}$
+
+\begin{equation}
+    \mathbb{J}_F(x,y) = 
+    \begin{pmatrix}
+        1 & -\frac{1}{3} \\
+        -\frac{1}{3} & 3
+    \end{pmatrix}
+    +
+    \begin{pmatrix} 1 & 1 \\ 1 & 1 \end{pmatrix} \sqrt{e^{x+y}}
+    =
+    \begin{pmatrix}
+        1 + e^{x+y} & -\frac{1}{3} + e^{x+y} \\
+        -\frac{1}{3} + e^{x+y} & 3 + e^{x+y}
+    \end{pmatrix}
+\end{equation}
 
 3 CHOLESKY
 
@@ -69,3 +168,48 @@ por lo tanto el orden total es (\frac{1}{3})n^{3} + 2n^{2} \approx (\frac{1}{3})
 3.4
 el Newton Raphson tiene k iteraciones en cada una se resuelve el sistema lineal con Cholesky que es de orden (\frac{1}{3})n^{3}  por lo tanto el orden de NR utilizand Cholesky es de  (\frac{k}{3})n^{3}
 
+
+%Ej4.3
+\subsection{Implementacion de Cholesky en una matriz tridiagonal simetrica.}
+\begin{equation*}
+    Q = \begin{pmatrix} 
+            \alpha_1 & \beta_1  & 0 & \cdots{} & 0\\ 
+            \beta_1 & \ddots & \ddots & \ddots & \vdots \\
+            0 & \ddots & \ddots & \ddots & 0 \\
+            \vdots & \ddots & \ddots & \ddots & \beta_n \\
+            0 & \cdots & 0 & \beta_n & \alpha_n
+        \end{pmatrix}
+\end{equation*}
+
+\begin{equation*}
+    L_{n} = \begin{pmatrix} 
+            1 &   &  &  & \\ 
+            l_1 & 1 &  &  &  \\
+             & \ddots & \ddots &  &  \\
+             &  & l_{n-2} & 1 &  \\
+             &  &  & l_{n-1} & 1
+        \end{pmatrix}
+\end{equation*}
+
+\begin{equation*}
+    \Delta_n = \begin{pmatrix} 
+            \delta_1 &   &  \\ 
+             & \ddots &    \\
+             &  & \delta_n
+        \end{pmatrix}
+\end{equation*}
+
+con \begin{equation} l_i = \frac{\beta_i}{\delta_i} \end{equation}
+y \begin{equation} l_i = \frac{\beta_i}{\delta_i} \end{equation}
+
+\begin{equation}
+    \delta_i =
+        \left\{\begin{matrix}
+        \alpha_1 si i = 1\\ \alpha_i - \frac{\beta_{i-1}^2}{\delta_{i-1}} si i>1
+        \end{matrix}\right.
+\end{equation}
+
+[BORRADOR] Por tal motivo, se sabe que $ Q = L_n\Delta_nL_{n}^{t} $,
+escribamos $\Delta_n$ como $\sqrt\Delta_n\sqrt\Delta_n$ y sustituyendo en la expresion anterior se tiene que
+$ Q = L_n\sqrt\Delta_n\sqrt\Delta_nL_{n}^{t} $ y llamando $L$ a $L_n\sqrt\Delta_n$ y $L^t$ a $\sqrt\Delta_nL_{n}^{t}$
+obtenemos que $Q = LL^t$ con $L$ triangular inferior hallando asi su descomposicion de Cholesky.
