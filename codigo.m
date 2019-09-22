@@ -55,3 +55,79 @@ function reses = ej2_6()
   endfor
   reses = x
 endfunction
+
+function Q = Q_n(n)
+  res = zeros(n,n);
+  for i = 1:(n-1)
+    res(i,i) = 2*i-1;
+    res(i,i+1) = (-1)^i/(3*i);
+    res(i+1,i) = res(i,i+1); %Fuerzo simetria
+  end
+  res(n,n) = 2*n-1;
+  Q = res;
+end
+
+% Calculo de matriz de descomp. de Cholesky para
+% actualizacion de rango 1 de Q
+function [L, a] = CholeskyModifyA(L_dato, a_dato)
+  L = L_dato;
+  a = a_dato;
+  n = length(a);
+  c = zeros(n);
+  s = zeros(n);
+  for i = 1:n
+    % Compute
+    i
+    w = sqrt(L(i,i)^2 + a(i)^2);
+    c(i) = w/L(i,i);
+    s(i) = a(i)/L(i,i);
+    L(i,i) = w
+    input('Press any key for next...');
+    % fin Compute
+    for j = 1:(i-1)
+      % Apply
+      texto = sprintf('(i,j) = (%d,%d)',i,j);
+      disp(texto)
+      L(j,i) = (L(j,i) + s(j)*a(i))/c(j)
+      a(i) = c(j)*a(i) - s(j)*L(j,i)
+      input('Press any key for next...');
+      %fin Apply
+    end % for
+  end % for
+end % CholeskyModifyA
+
+function [L, a] = CholeskyModifyB(L_dato, a_dato)
+  L = L_dato;
+  a = a_dato;
+  n = length(a);
+  c = zeros(n);
+  s = zeros(n);
+  for i = 1:n
+    % Compute
+    w = sqrt(L(i,i)^2 + a(i)^2);
+    c(i) = w/L(i,i);
+    s(i) = a(i)/L(i,i);
+    L(i,i) = w;
+    % fin Compute
+    for j = (i+1):n
+      % Apply
+      L(i,j) = (L(i,j) + s(i)*a(j))/c(i);
+      a(j) = c(i)*a(j) - s(i)*L(i,j);
+      %fin Apply
+    end % for
+  end % for
+end % CholeskyModifyB
+
+% Calculo de matriz de descomp. de Cholesky para
+% matriz tridiagonal simetrica
+function L = L_n(Q)
+  delta = Q(1,1); % delta_1 = alpha_1
+  n = size(Q)(1);
+  L = zeros(n,n);
+  L(1,1) = sqrt(delta);
+  for i = 2:n
+    L(i,i-1) = Q(i,i-1)/sqrt(delta); % use delta_(i-1)
+    delta = Q(i,i) - (Q(i,i-1)^2)/delta; % calculo delta_(i)
+    L(i,i) = sqrt(delta);
+  end
+end
