@@ -67,35 +67,6 @@ function Q = Q_n(n)
   Q = res;
 end
 
-% Calculo de matriz de descomp. de Cholesky para
-% actualizacion de rango 1 de Q
-function [L, a] = CholeskyModifyA(L_dato, a_dato)
-  L = L_dato;
-  a = a_dato;
-  n = length(a);
-  c = zeros(n);
-  s = zeros(n);
-  for i = 1:n
-    % Compute
-    i
-    w = sqrt(L(i,i)^2 + a(i)^2);
-    c(i) = w/L(i,i);
-    s(i) = a(i)/L(i,i);
-    L(i,i) = w
-    input('Press any key for next...');
-    % fin Compute
-    for j = 1:(i-1)
-      % Apply
-      texto = sprintf('(i,j) = (%d,%d)',i,j);
-      disp(texto)
-      L(j,i) = (L(j,i) + s(j)*a(i))/c(j)
-      a(i) = c(j)*a(i) - s(j)*L(j,i)
-      input('Press any key for next...');
-      %fin Apply
-    end % for
-  end % for
-end % CholeskyModifyA
-
 function [L, a] = CholeskyModifyB(L_dato, a_dato)
   L = L_dato;
   a = a_dato;
@@ -120,7 +91,7 @@ end % CholeskyModifyB
 
 % Calculo de matriz de descomp. de Cholesky para
 % matriz tridiagonal simetrica
-function L = L_n(Q)
+function L = cholesky_tridiagonal(Q)
   delta = Q(1,1); % delta_1 = alpha_1
   n = size(Q)(1);
   L = zeros(n,n);
@@ -131,3 +102,53 @@ function L = L_n(Q)
     L(i,i) = sqrt(delta);
   end
 end
+
+function res = az(z)
+  res = sqrt(exp(sum(z)))*ones(size(z))';
+endfunction
+function res = b_n(n)
+  res = ones(1,n)';
+  for i = 1:n
+    res(i) = (-1)^i * i;
+  endfor
+endfunction
+
+function z = NR2(sQ, iters=1)
+  
+  z_tmp = (ones(1,sQ)/sQ);
+  b = b_n(sQ)';
+  Q = Q_n(sQ);
+  L = cholesky_tridiagonal(Q);
+  lowerlinsolve = opts.LT = true;
+  upperlinsolve = opts.UT = true;
+  for i = 1:iters
+    a = az(z_tmp);
+    [Lm,info] = cholupdate(L',a)
+    %NR: F(z_new-z_tmp) = F(z_tmp) + dF(z_tmp) * (z_new-z_tmp)
+    % igualando a 0
+    % z_new = z_tmp - dF^-1(z_tmp)(F(z_tmp))
+    % 
+    %(Q+b)x = -F(z_tmp)
+    % LL'x = -F(z_tmp)
+    % Ly = -F(z_tmp)
+    % L' z_newtmp = y
+    Fz = Q*z_tmp' - b' + a
+    y = linsolve(Lm',Fz)
+    x = linsolve(Lm',y)
+    z_tmp = z_tmp - x'
+  endfor
+  z = z_tmp
+endfunction
+
+function res1,res2 = ej5_1_2()
+  enes = [1,2,3,4,5,10,20,30,40,50]*100
+  valores = zeros(size(enes),1)
+  normas = zeros(size(enes),1)
+  tmp = ones(1,size(Q)(1))/size(Q)(1)
+  for i = 1:size(enes);
+    %
+    tmp = NR(tmp,1);
+    x(i) = norm(df(tmp));
+  endfor
+  res1 = x
+endfunction
