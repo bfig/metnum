@@ -203,11 +203,12 @@ con \begin{equation} l_i = \frac{\beta_i}{\delta_i} \end{equation}
 y \begin{equation} l_i = \frac{\beta_i}{\delta_i} \end{equation}
 
 \begin{equation}
-    \delta_i =
-        \left\{\begin{matrix}
-        \alpha_1 si i = 1\\ \alpha_i - \frac{\beta_{i-1}^2}{\delta_{i-1}} si i>1
-        \end{matrix}\right.
-\end{equation}
+        \delta_i =
+            \begin{cases}
+                \alpha_1 \text{ si } i = 1 \\
+                \alpha_i - \frac{\beta_{i-1}^2}{\delta_{i-1}} \text{ si } i>1
+            \end{cases}
+    \end{equation}
 
 [BORRADOR] Por tal motivo, se sabe que $ Q = L_n\Delta_nL_{n}^{t} $,
 escribamos $\Delta_n$ como $\sqrt\Delta_n\sqrt\Delta_n$ y sustituyendo en la expresion anterior se tiene que
