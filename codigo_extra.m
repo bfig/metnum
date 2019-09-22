@@ -110,6 +110,20 @@ function [L, a] = CholeskyModifyB(L_dato, a_dato)
   end % for
 end % CholeskyModifyB
 
+% Calculo de matriz de descomp. de Cholesky para
+% matriz tridiagonal simetrica
+function L = L_n(Q)
+  delta = Q(1,1); % delta_1 = alpha_1
+  n = size(Q)(1);
+  L = zeros(n,n);
+  L(1,1) = sqrt(delta);
+  for i = 2:n
+    L(i,i-1) = Q(i,i-1)/sqrt(delta); % use delta_(i-1)
+    delta = Q(i,i) - (Q(i,i-1)^2)/delta; % calculo delta_(i)
+    L(i,i) = sqrt(delta);
+  end
+end
+
 %---------------------------%
 % Programa Principal
 %---------------------------%
