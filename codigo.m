@@ -38,15 +38,14 @@ function sol = NR(X,iters = 10)
   endfor
   sol = tmp;
 endfunction
-
-function error = ej2_2()
+function error = ej2_5()
   res_1_5 = ej1_5();
   res_2_3 = NR([1;1]);
   error = abs(res_1_5 - res_2_3);
 endfunction
 
 function reses = ej2_6()
-    iters = 10
+  iters = 10
   x = zeros(iters,1)
   tmp = [1;1];
   for i = 1:iters;
@@ -56,99 +55,27 @@ function reses = ej2_6()
   reses = x
 endfunction
 
-function Q = Q_n(n)
-  res = zeros(n,n);
-  for i = 1:(n-1)
-    res(i,i) = 2*i-1;
-    res(i,i+1) = (-1)^i/(3*i);
-    res(i+1,i) = res(i,i+1); %Fuerzo simetria
-  end
-  res(n,n) = 2*n-1;
-  Q = res;
+function [ci,si,L] = compute(L,V,i)
+  w = sqrt(L(i,i)^2 + V(i)^2)
+  ci = w/L(i,i)
+  si = V(i)/L(i,i)
+  L(i,i) = w
 end
 
-function [L, a] = CholeskyModifyB(L_dato, a_dato)
-  L = L_dato;
-  a = a_dato;
-  n = length(a);
-  c = zeros(n);
-  s = zeros(n);
-  for i = 1:n
-    % Compute
-    w = sqrt(L(i,i)^2 + a(i)^2);
-    c(i) = w/L(i,i);
-    s(i) = a(i)/L(i,i);
-    L(i,i) = w;
-    % fin Compute
-    for j = (i+1):n
-      % Apply
-      L(i,j) = (L(i,j) + s(i)*a(j))/c(i);
-      a(j) = c(i)*a(j) - s(i)*L(i,j);
-      %fin Apply
-    end % for
-  end % for
-end % CholeskyModifyB
-
-% Calculo de matriz de descomp. de Cholesky para
-% matriz tridiagonal simetrica
-function L = cholesky_tridiagonal(Q)
-  delta = Q(1,1); % delta_1 = alpha_1
-  n = size(Q)(1);
-  L = zeros(n,n);
-  L(1,1) = sqrt(delta);
-  for i = 2:n
-    L(i,i-1) = Q(i,i-1)/sqrt(delta); % use delta_(i-1)
-    delta = Q(i,i) - (Q(i,i-1)^2)/delta; % calculo delta_(i)
-    L(i,i) = sqrt(delta);
-  end
-end
-
-function res = az(z)
-  res = sqrt(exp(sum(z)))*ones(size(z))';
-endfunction
-function res = b_n(n)
-  res = ones(1,n)';
-  for i = 1:n
-    res(i) = (-1)^i * i;
-  endfor
+function [L,V] = apply(ci,si,L,V,i,j)
+  L(i,j) = (L(i,j)+si*V(j))/ci
+  V(j) = ci * V(j) - si * L(i,j)
 endfunction
 
-function z = NR2(sQ, iters=1)
-  
-  z_tmp = (ones(1,sQ)/sQ);
-  b = b_n(sQ)';
-  Q = Q_n(sQ);
-  L = cholesky_tridiagonal(Q);
-  lowerlinsolve = opts.LT = true;
-  upperlinsolve = opts.UT = true;
+
+function z = NR2(Q, iters = 10)
+    tmp = X;
   for i = 1:iters
-    a = az(z_tmp);
-    [Lm,info] = cholupdate(L',a)
-    %NR: F(z_new-z_tmp) = F(z_tmp) + dF(z_tmp) * (z_new-z_tmp)
-    % igualando a 0
-    % z_new = z_tmp - dF^-1(z_tmp)(F(z_tmp))
-    % 
-    %(Q+b)x = -F(z_tmp)
-    % LL'x = -F(z_tmp)
-    % Ly = -F(z_tmp)
-    % L' z_newtmp = y
-    Fz = Q*z_tmp' - b' + a
-    y = linsolve(Lm',Fz)
-    x = linsolve(Lm',y)
-    z_tmp = z_tmp - x'
+    chol
+    j_k = jF(tmp);
+    f_k = df(tmp);
+    tmp = tmp - j_k \ f_k;
   endfor
-  z = z_tmp
+  z = tmp;
 endfunction
 
-function res1,res2 = ej5_1_2()
-  enes = [1,2,3,4,5,10,20,30,40,50]*100
-  valores = zeros(size(enes),1)
-  normas = zeros(size(enes),1)
-  tmp = ones(1,size(Q)(1))/size(Q)(1)
-  for i = 1:size(enes);
-    %
-    tmp = NR(tmp,1);
-    x(i) = norm(df(tmp));
-  endfor
-  res1 = x
-endfunction
