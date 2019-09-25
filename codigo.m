@@ -56,15 +56,24 @@ function reses = ej2_6()
   reses = x
 endfunction
 
+% Calculo de Q para dimension n
 function Q = Q_n(n)
   res = zeros(n,n);
   for i = 1:(n-1)
     res(i,i) = 2*i-1;
     res(i,i+1) = (-1)^i/(3*i);
-    res(i+1,i) = res(i,i+1); %Fuerzo simetria
+    res(i+1,i) = res(i,i+1); % Fuerzo simetria
   end
   res(n,n) = 2*n-1;
   Q = res;
+end
+
+% Calculo de b para dimension n
+function b = b_n(n)
+  b = zeros(n,1);
+  for k = 1:n
+    b(k) = k*(-1)^k;
+  end
 end
 
 function [L, a] = CholeskyModifyB(L_dato, a_dato)
@@ -91,6 +100,7 @@ end % CholeskyModifyB
 
 % Calculo de matriz de descomp. de Cholesky para
 % matriz tridiagonal simetrica
+% Devuelve matriz triangular inferior
 function L = cholesky_tridiagonal(Q)
   delta = Q(1,1); % delta_1 = alpha_1
   n = size(Q)(1);
@@ -103,31 +113,37 @@ function L = cholesky_tridiagonal(Q)
   end
 end
 
+% Calculo de matriz de descomp. de Cholesky para
+% matriz tridiagonal simetrica
+% Devuelve matriz triangular superior
+function L = cholesky_tridiagonal_2(Q)
+  delta = Q(1,1); % delta_1 = alpha_1
+  n = size(Q)(1);
+  L = zeros(n,n);
+  for i = 1:(n-1)
+    L(i,i) = sqrt(delta);
+    L(i,i+1) = Q(i,i+1)/sqrt(delta); % use delta_(i-1)
+    delta = Q(i+1,i+1) - (Q(i,i+1)^2)/delta; % calculo delta_(i)
+  end
+  L(n,n) = sqrt(delta);
+end
+
 function res = az(z)
-  res = sqrt(exp(sum(z)))*ones(size(z))';
-endfunction
-function res = afz(z)
-  res = exp(sum(z))*ones(size(z))';
-endfunction
-function res = b_n(n)
-  res = ones(1,n)';
-  for i = 1:n
-    res(i) = (-1)^i * i;
-  endfor
-endfunction
+  res = (exp(sum(z)))*ones(length(z),1); % [1 1 ... 1]'*exp(sum(x1,x2,...,xn))
+end
 
 function z = NR2(sQ, iters=1)
-  
-  z_tmp = (ones(1,sQ)/sQ);
+  z_tmp = (ones(sQ,1)/sQ); % [1/n 1/n ... 1/n]'
   b = b_n(sQ)';
   Q = Q_n(sQ)
-  L = cholesky_tridiagonal(Q);
-  lowerlinsolve = opts.LT = true;
-  upperlinsolve = opts.UT = true;
+  L = cholesky_tridiagonal_2(Q);
+  ec1_opt.LT = true;
+  ec2_opt.UT = true;
   for i = 1:iters
-    a = az(z_tmp);
-    aF = afz(z_tmp);
-    [Lm,info] = cholupdate(L',a);
+    a_temp = az(z_tmp);
+    a = sqrt(a_temp);
+    %[Lm,info] = cholupdate(L',a);
+    Lm = CholeskyModifyB(L,a);
     %NR: F(z_new-z_tmp) = F(z_tmp) + dF(z_tmp) * (z_new-z_tmp)
     % igualando a 0
     % z_new = z_tmp - dF^-1(z_tmp)(F(z_tmp))
@@ -136,12 +152,12 @@ function z = NR2(sQ, iters=1)
     % LL'x = -F(z_tmp)
     % Ly = -F(z_tmp)
     % L' z_newtmp = y
-    Fz = Q*z_tmp' - b' + aF;
-    y = linsolve(Lm,Fz);
-    x = linsolve(Lm',y);
-    z_tmp = z_tmp - x';
+    Fz = Q*z_tmp - b + a_temp;
+    y = linsolve(Lm',-Fz,ec1_opt);
+    x = linsolve(Lm,y,ec2_opt);
+    z_tmp = z_tmp + x;
   endfor
-  z = z_tmp';
+  z = z_tmp;
 endfunction
 
 function res1,res2 = ej5_1_2()
@@ -156,3 +172,20 @@ function res1,res2 = ej5_1_2()
   endfor
   res1 = x
 endfunction
+
+function [norma_z,tiempos] = ej5_2_3()
+  enes = [1 2 3 4 5 10 20 30 40 50]*10;
+  norma_z = zeros(1,length(enes));
+  tiempos = zeros(1,length(enes));
+  for (i = 1:length(enes))
+    tic();
+    norma_z(i) = norm(NR2(enes(i),20));
+    tiempos(i) = toc();
+  end
+end
+
+function tiempo = prueba_tiempo(enes)
+    tic();
+    NR2(enes,20);
+    tiempo = toc();
+end
