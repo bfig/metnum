@@ -1,0 +1,62 @@
+\usepackage{graphicx}
+\usepackage{subcaption} % para grupos de figuras
+\usepackage{amssymb} % mas simbolos
+%Ej5.1
+\subsection{}
+
+%Ej5.2
+\subsection{Verificación de $z^{NR}$}
+En la tabla \ref{tab:table_5_2} se muestra la norma de $F(z)$ para distintos valores de dimension $n$.
+
+%% -- VALORES PLACEHOLDER -- VALORES PLACEHOLDER -- VALORES PLACEHOLDER --
+\begin{table}[]
+    \begin{center}
+        \caption{Valores de $|| F(z^{NR}) ||$.}
+        \label{tab:table_5_2}
+        \begin{tabular}{}
+        $n$                        & 100 & 200 & 300 & 400 & 500 & 1000 & 2000 & 3000 & 4000 & 5000 \\
+        $F(z^{NR}) \times 10^{-00}$ & 0   & 0   & 0   & 0   & 0   & 0    & 0    & 0    & 0    & 0   
+        \end{tabular}
+    \end{center}
+\end{table}
+
+Se puede ver que para todos los tamaños, se llega casi a anular la función en 20 iteraciones.
+
+%Ej5.3
+\subsection{Tiempo de ejecución de NR2}
+Con el fin de estudiar el tiempo de ejecución del algoritmo de NR2, se lo aplica para distintos valores de dimension $n$.
+\begin{equation*}
+    n = [1, 2, 3, 4, 5, 10, 20, 30, 40, 50] \times 100
+\end{equation*}
+A continuación se muestran los resultados:
+\begin{figure}
+    \includegraphics[width=\linewidth]{Grafica_5_3_1.png}
+    \caption{Tiempo de ejecución del algoritmo NR2.}
+    \label{fig:Grafica_5_3_1}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{Grafica_5_3_2.png}
+    \caption{Tiempo de ejecución del algoritmo NR2 en escala logaritmica.}
+    \label{fig:Grafica_5_3_2}
+\end{figure}
+En la figura \ref{fig:Grafica_5_3_2}, se puede ver un comportamiento lineal de los datos.
+Esto concuerda con lo visto en la sección 4.5, donde se vio que el tiempo de ejecucion es $O(n^2)$.
+Comprobemoslo:
+\begin{align}
+    T(n) &= kn^2 \\
+    log(kn^2) &= log(k) + 2log(n) \\
+    &\text{ C.V.} \rightarrow y = log(kn^2) \text{ ; } x = log(n) \\
+    y &= a + bx
+\end{align}
+
+%Ej5.4
+\subsection{Ajuste polinomial del tiempo de ejecución}
+Utilizando la funcion polyfit de Octave, se ajustan los datos de la sección 5.3 con un polinomio de grado 2.
+\begin{figure}
+    \includegraphics[width=\linewidth]{Grafica_5_4.png}
+    \caption{Ajuste cuadratico del tiempo de ejecucion de NR2.}
+    \label{fig:Grafica_5_4}
+\end{figure}
+Como se ve en la figura, con un polinomio de grado 2 se logran ajustar correctamente los datos.
+\end{document}

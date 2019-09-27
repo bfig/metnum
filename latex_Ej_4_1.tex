@@ -1,0 +1,47 @@
+\usepackage{graphicx}
+\usepackage{subcaption} % para grupos de figuras
+\usepackage{amssymb} % mas simbolos
+\usepackage{amsmath} %i.e. \begin{equation*} Ecuacion \end{equation*} para ecuaciones no numeradas
+\usepackage{amsthm} % \begin{thm}Here is a new theorem.\end{thm}
+%Ej4.1
+    \subsection{Teorema de Gershgorin}
+    Se busca probar que la matriz Q es siempre definida positiva usando el Teorema de Gershgorin.
+    Dado $Q \in \mathbb{R}^{n \times n}$, se considera el Teorema aplicado a los numeros reales.
+
+    Dadas $q_{ij}$ entradas de Q, sea $R_i = \sum_{i \neq j}\left | q_{ij} \right |$ y sea $D(q_{ij},R_i)$
+    un entorno cerrado $ [q_{ii}-R_i, q_{ii}+R_i]$, el teorema dice:
+    \begin{thm}[Teorema de Gershgorin]
+        Todo valor propio de Q esta en al menos uno de los entornos cerrados.
+    \end{thm}
+
+    Por otro lado, $Q$ es definida positiva sii $\lambda_i > 0$ $\forall \lambda_i$ valor propio de $Q$
+    Entonces, basta probar que todos los elementos de los entornos cerrados de Q contienen solo valores positivos.
+
+    Especificamente, si $\forall i:$ $1 \leq i \leq n$, $q_{ii} - R_i >0$ entonces $Q$ sera definida positiva.
+    Generalizando:
+    Los elementos de $Q$ son:
+    \begin{equation}
+        \begin{cases}
+            q_{i,i+1} = \frac{(-1)^i}{3i} \phantom{-} \forall i = 1,...,n-1 \\
+            q_{i,i} = 2i-1 \phantom{-} \forall i = 1,...,n
+        \end{cases}
+    \end{equation}
+
+    Los radios del intervalo son:
+    con $n > 1$
+    \begin{equation}
+        \begin{cases}
+            R_1 = \frac{1}{3} \\
+            R_n = \frac{1}{3(n-1)} \\
+            R_i = \frac{1}{3(i-1)} + \frac{1}{3i} \text{ para }  1<i<n
+        \end{cases}
+    \end{equation}
+    Entonces, para $n > 1$,
+    \begin{equation}
+        \begin{cases}
+            q_{i,i} - R_1 = 1 - \frac{1}{3} = \frac{2}{3} > 0 \\
+            q_{n,n} - R_n =  2n-1 - \frac{1}{3(n-1)} = \frac{1}{3(n-1)}(6n^2 - 9n + 2) > 0 \phantom{-}\forall n>1 \\
+            q_{i,i} - R_i = 2i-1 - \frac{1}{3(i-1)} - \frac{1}{3i} > 0 \phantom{-}\forall n>1
+        \end{cases}
+    \end{equation}
+    Se prueba entonces que todos los valores propios de $Q$ son positivos y por tanto es una matriz definida positiva.
