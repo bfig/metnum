@@ -166,7 +166,8 @@ para factorizar A como CC^{t} , se hace cambio de variable L=C^{t} y L^{t}=C de 
 por lo tanto el orden total es (\frac{1}{3})n^{3} + 2n^{2} \approx (\frac{1}{3})n^{3} 
 
 3.4
-el Newton Raphson tiene k iteraciones en cada una se resuelve el sistema lineal con Cholesky que es de orden (\frac{1}{3})n^{3}  por lo tanto el orden de NR utilizand Cholesky es de  (\frac{k}{3})n^{3}
+El método de Newton Raphson tiene k iteraciones, en cada una se resuelve el sistema lineal con el método de Cholesky. 
+El método de Cholesky es de orden n^{3}  por lo tanto el orden de NR utilizando Cholesky sería:  kn^{3}
 
 4.2
 
@@ -261,3 +262,5 @@ y \begin{equation} l_i = \frac{\beta_i}{\delta_i} \end{equation}
 escribamos $\Delta_n$ como $\sqrt\Delta_n\sqrt\Delta_n$ y sustituyendo en la expresion anterior se tiene que
 $ Q = L_n\sqrt\Delta_n\sqrt\Delta_nL_{n}^{t} $ y llamando $L$ a $L_n\sqrt\Delta_n$ y $L^t$ a $\sqrt\Delta_nL_{n}^{t}$
 obtenemos que $Q = LL^t$ con $L$ triangular inferior hallando asi su descomposicion de Cholesky.
+
+4.5
