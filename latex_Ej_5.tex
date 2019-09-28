@@ -8,17 +8,27 @@
 \subsection{Verificación de $z^{NR}$}
 En la tabla \ref{tab:table_5_2} se muestra la norma de $F(z)$ para distintos valores de dimension $n$.
 
-%% -- VALORES PLACEHOLDER -- VALORES PLACEHOLDER -- VALORES PLACEHOLDER --
-\begin{table}[]
+\begin{table}[h!]
     \begin{center}
-        \caption{Valores de $|| F(z^{NR}) ||$.}
-        \label{tab:table_5_2}
-        \begin{tabular}{}
-        $n$                        & 100 & 200 & 300 & 400 & 500 & 1000 & 2000 & 3000 & 4000 & 5000 \\
-        $F(z^{NR}) \times 10^{-00}$ & 0   & 0   & 0   & 0   & 0   & 0    & 0    & 0    & 0    & 0   
-        \end{tabular}
+      \caption{Your first table.}
+      \label{tab:table1}
+      \begin{tabular}{l|c|r} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+        \textbf{n} & \textbf{$||F(z^{NR})||$}\\
+        \hline
+         100 & 3.574573332905249e-014\\
+         200 & 1.175361818307876e-013\\
+         300 & 1.997171185243193e-013\\
+         400 & 3.256674181109525e-013\\
+         500 & 4.902233609479727e-013\\
+        1000 & 1.403048923326327e-012\\
+        2000 & 3.877314569665418e-012\\
+        3000 & 7.960022321886946e-012\\
+        4000 & 1.081169278301875e-011\\
+        5000 & 1.555144859221123e-011\\
+        \hline
+      \end{tabular}
     \end{center}
-\end{table}
+  \end{table}  
 
 Se puede ver que para todos los tamaños, se llega casi a anular la función en 20 iteraciones.
 
@@ -29,13 +39,13 @@ Con el fin de estudiar el tiempo de ejecución del algoritmo de NR2, se lo aplic
     n = [1, 2, 3, 4, 5, 10, 20, 30, 40, 50] \times 100
 \end{equation*}
 A continuación se muestran los resultados:
-\begin{figure}
+\begin{figure}[h!]
     \includegraphics[width=\linewidth]{Grafica_5_3_1.png}
     \caption{Tiempo de ejecución del algoritmo NR2.}
     \label{fig:Grafica_5_3_1}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h!]
     \includegraphics[width=\linewidth]{Grafica_5_3_2.png}
     \caption{Tiempo de ejecución del algoritmo NR2 en escala logaritmica.}
     \label{fig:Grafica_5_3_2}
@@ -53,10 +63,9 @@ Comprobemoslo:
 %Ej5.4
 \subsection{Ajuste polinomial del tiempo de ejecución}
 Utilizando la funcion polyfit de Octave, se ajustan los datos de la sección 5.3 con un polinomio de grado 2.
-\begin{figure}
+\begin{figure}[h!]
     \includegraphics[width=\linewidth]{Grafica_5_4.png}
     \caption{Ajuste cuadratico del tiempo de ejecucion de NR2.}
     \label{fig:Grafica_5_4}
 \end{figure}
 Como se ve en la figura, con un polinomio de grado 2 se logran ajustar correctamente los datos.
-\end{document}
