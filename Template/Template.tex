@@ -85,6 +85,7 @@
 
 
 \section{Ejercicio 1}
+%Ej1.1
 \subsection{Representación de $f$ en $\mathbb{R}^2$}
 %TODO: fix image positioning
 \begin{figure}[htbp]
@@ -98,6 +99,8 @@
   \label{fig:1.1.2}
 \end{figure}
 Se adjuntan dos imágenes  \ref{fig:1.1.1} y \ref{fig:1.1.2}  donde se puede ver la función $f(x,y)$. Su forma parece ser convexa con un mínimo global cerca de cero.
+
+%Ej1.2
 \subsection{Hallar $Q$ y $b$}
 $Q \in \mathbb{R}^{2\times2}$ y $b \in \mathbb{R}^{2\times1}$ tienen la siguiente forma
 
@@ -129,13 +132,37 @@ Resolviendolo se tiene que
 $Q =  \begin{pmatrix} \phantom{-}1 & -\frac{1}{3} \\ -\frac{1}{3} & \phantom{-}3\end{pmatrix} $
 y
 $b = \begin{pmatrix} -1\\ 2 \end{pmatrix}$
+
+%Ej1.3
 \subsection{Puntos críticos de $f$}
-Podemos ver derivando $\nabla f = 2(Qz -b)+ 2e^{z_x+z_y} = 2*F(z)$, dividiendo entre 2 e igualando a 0 tenemos $ F = 0 $
+El gradiente de $f$ igualado a cero y con todos sus terminos divididos entre 2 da el sistema de ecuaciones:
+\begin{equation}
+\nabla f = \left( \frac{\partial f}{\partial x}, \frac{\partial f}{\partial y} \right)
+=
+\left( x - \frac{1}{3}y + 1 + e^{x+y}, 3y - \frac{1}{3}x - 2 + e^{x+y} \right) = (0,0)
+\end{equation}
+
+Por otro lado, se desarrolla la expresion de $F(z) = (0,0)$, que queda de la misma forma que el sistema de ecuaciones anterior.
+\begin{align}
+    F(z) &= (Qz - b) + \left(\begin{matrix} 1\\1 \end{matrix}\right)e^{x+y}
+    \\
+    F(z) &= \begin{pmatrix} \phantom{-}1 & -\frac{1}{3} \\ -\frac{1}{3} & \phantom{-}3\end{pmatrix} \begin{pmatrix} x\\y \end{pmatrix}
+    -\begin{pmatrix} -1\\\phantom{-}2 \end{pmatrix} + \begin{pmatrix} e^{x+y}\\e^{x+y} \end{pmatrix}
+    \\
+    F(z) &= \begin{pmatrix} \phantom{-}x -\frac{1}{3}y + 1 +e^{x+y} \\ -\frac{1}{3}x + 3y - 2 +e^{x+y} \end{pmatrix} = \begin{pmatrix} 0\\0 \end{pmatrix}
+\end{align}
+%Ej1.4
 \subsection{Estimación de puntos críticos}
 Se puede ver en las figuras  \ref{fig:1.1.1} y \ref{fig:1.1.2} que aproximadamente se puede obtener el mínimo inspeccionando la gráfica. El mínimo obtenido es $f(-1.34,0.4)= -0.87$
+
+%Ej1.5
 \subsection{Estimando la solución computacionalmente}
 Utilizando \lstinline[style=mystyle]{fsolve(@F,[1;1])} tenemos como resultado $(-1.28035, 0.38786)$
+
+%Ej2
 \section{Newton Raphson}
+
+%Ej2.1
 \subsection{Descripción de Newton Raphson}
 El método de Newton Raphson es un método de aproximación lineal donde miramos la derivada (el jacobiano) en un punto, y buscamos el punto de corte de esta tangente con el 0
 
@@ -154,6 +181,8 @@ truncando el término $O(\left \| x-x^{(k)} \right \|^2)$ y resolviendo $F(x) \a
 
 El determinante de $J_F$ debe ser no nulo para poder invertir la matriz.
 El método de Newton rhapson consiste en iterar este proceso, aproximándonos a la solución con cada paso
+
+%Ej2.2
 \subsection{Forma del jacobiano del Ejercicio 1}
 Al igual que en la parte 1.3, empezamos por calcular la matriz jacobiana.
     
@@ -195,12 +224,20 @@ Al igual que en la parte 1.3, empezamos por calcular la matriz jacobiana.
         \end{pmatrix}
     \end{equation}
     Se ve entonces que efectivamente se llega a lo mismo.
+
+%Ej2.3
 \subsection{Implementación de Newton Raphson}
 Queda implementado en el archivo \lstinline[style=mystyle]{codigo.m}
+
+%Ej2.4
 \subsection{Ejecución de 10 iteraciones de Newton Raphson}
 Se implementa en la función \lstinline[style=mystyle]{ej2_3}, el resultado es $(-1.28035, 0.38786)$
+
+%Ej2.5
 \subsection{Comparación con \lstinline[style=mystyle]{fsolve}}
 Se implementa en la función  \lstinline[style=mystyle]{ej2_5}, el resultado es $(1.2794*10^{-12},5.1043*10^{-13})$
+
+%Ej2.6
 \subsection{Valor absoluto del error}
 \begin{figure}[htbp]
   \includegraphics[scale=0.25]{ej_2_6_1.jpg}
@@ -213,11 +250,17 @@ Se implementa en la función  \lstinline[style=mystyle]{ej2_5}, el resultado es 
   \label{fig:2.6.2}
 \end{figure}
 Se implementa en la función  \lstinline[style=mystyle]{ej2_6}. Se presentan dos imágenes, en escala lineal y logarítmica en y en las figuras \ref{fig:2.6.1} y \ref{fig:2.6.2}
+
+%Ej3
 \section{Cholesky}
+
+%Ej3.1
 \subsection{Definición}
 $Q \in M ^{n\times n} (\mathbb{R})$ una matriz simetrica definida positiva, es decir se cumple:
  $Q=Q^{t}$  y $X^{t}QX > 0 \forall X \neq \vec{0}$
 Entonces existe una matriz $C\in M ^{n\times n}$ triangular inferior tal que Q puede ser factorizada como $Q = CC^{t} $
+
+%Ej3.2
 \subsection{Resolución de sistemas por Cholesky}
 se quiere resolver el sistema $AX=b$ con $A \in M ^{n\times n} (\mathbb{R})$ una matriz definida positiva
 factorizamos $A$ de forma de obtener $A = CC^{t} \Rightarrow CC^{t}X =b$
@@ -236,14 +279,21 @@ luego se resuelve el sistema (9) que es triangular superior con sustitución hac
 y_{n}=\frac{b_{n}}{c_{nn}}
 y_{i}=\frac{1}{c_{ii}}(b_{i}-\sum _{j=i+1}^{n} c_{ij}x_{j}), i=n-1,...,1
 \end{align*}
+
+%Ej3.3
 \subsection{Orden de resolución de sistemas por Cholesky}
 El orden de resolver los sistemas anteriores son $n\frac{n+1}{2}$  multiplicaciones, divisiones y el número de sumas  y restas es n $\frac{n-1}{2}$
 para resolver el sistema se usa $\mathcal{O}\left(n^{2}\right)$ flops
 Para factorizar $A$ como $CC^{t}$ , se hace cambio de variable $L=C^{t}$ y $L^{t}=C$ de esta forma buscamos $A= L^{t}L$   utilizando descomposición QR se obtiene la factorización, el orden de la misma es de $\frac{1}{3}n^{3}$
 por lo tanto el orden total es $\frac{1}{3}n^{3} + 2n^{2} \approx \frac{1}{3}n^{3}$
+
+%Ej3.4
 \subsection{Órden de Newton Raphson con Cholesky}
 el algoritmo Newton Raphson tiene k iteraciones en cada una se resuelve el sistema lineal con Cholesky que es de orden $\frac{1}{3}n^{3}$  por lo tanto el orden de NR utilizando Cholesky es de  $\frac{k}{3}n^{3}$
+
+%Ej4
 \section{Mínimo de una función en $\mathbb{R}^n$}
+
 %Ej4.1
 \subsection{Teorema de Gershgorin}
 Se busca probar que la matriz Q es siempre definida positiva usando el Teorema de Gershgorin.
@@ -282,6 +332,7 @@ Entonces, para $n > 1$,
     \end{cases}
 \end{equation}
 Se prueba entonces que todos los valores propios de $Q$ son positivos y por tanto es una matriz definida positiva.
+
 %Ej4.2
 \subsection{Actualización de rango uno de Q}
 Se utiliza Referencia dada en la letra del Obligatorio:  Walder,  C.  (2010).  RankkCholesky  Up/Down-dating  on  the  GPU:  gpucholmodV0.  2.arXiv preprint arXiv:1011.1173.
@@ -338,20 +389,67 @@ $s_{1}=\frac{a_{1}}{{l}_{11}}$
 
 son utilizados en el cálculo de los elementos que no son de la diagonal
 según la fórmula: $\bar{l}_{ij} =  \frac{{{l}_{ij}} +{s}_{i}a_{j}}{c_{i}}$
+
 %Ej4.3
-\subsection{Thomas}
+\subsection{Cholesky de matriz tridiagonal y simetrica.}
+Dada la matriz $Q$ tridiagonal y simetrica, con valores $\beta_j$ no nulos.
+    \begin{equation*}
+        Q = \begin{pmatrix} 
+                \alpha_1 & \beta_1 &    0   & \cdots      &   0         \\ 
+                \beta_1  & \ddots  & \ddots & \ddots      & \vdots      \\
+                  0      & \ddots  & \ddots & \ddots      &   0         \\
+                \vdots   & \ddots  & \ddots & \ddots      & \beta_{n-1} \\
+                  0      & \cdots  &    0   & \beta_{n-1} & \alpha_n
+            \end{pmatrix}
+    \end{equation*}
+Para empezar, se transforma la matriz removiendo una de las diagonales usando el metodo de Thomas, logrando la forma siguiente
+    \begin{equation*}
+        L_{n} = \begin{pmatrix} 
+                1   &        &         &         &   \\ 
+                l_1 &   1    &         &         &   \\
+                    & \ddots & \ddots  &         &   \\
+                    &        & l_{n-2} &    1    &   \\
+                    &        &         & l_{n-1} & 1
+            \end{pmatrix}
+    \end{equation*}
+con  $l_i = \frac{\beta_i}{\delta_i}$ y
+\begin{equation}
+    \delta_i =
+        \begin{cases}
+            \alpha_1 \text{ si } i = 1 \\
+            \alpha_i - \frac{\beta_{i-1}^2}{\delta_{i-1}} \text{ si } i>1
+        \end{cases}
+\end{equation}
+Se considera ademas la matriz diagonal $\Delta_n$.
+\begin{equation*}
+    \Delta_n = \begin{pmatrix} 
+            \delta_1 &        &          \\ 
+                        & \ddots &          \\
+                        &        & \delta_n
+        \end{pmatrix}
+\end{equation*}
+
+Se puede ver que $Q$ queda con la misma forma que una factorizacion LDU con $ Q = L_n\Delta_nL_{n}^{t} $.
+Escribiendo $\Delta_n$ como $\sqrt\Delta_n\sqrt\Delta_n$ y sustituyendo en la expresion anterior se tiene que
+$ Q = L_n\sqrt\Delta_n\sqrt\Delta_nL_{n}^{t} $ y llamando $L$ a $L_n\sqrt\Delta_n$ y $L^t$ a $\sqrt\Delta_nL_{n}^{t}$
+se obtiene que $Q = LL^t$ con $L$ triangular inferior que determina asi su descomposicion de Cholesky.
+
 %Ej4.4
 \subsection{NR incorporando Cholesky, NR2}
 (ver codigo)
+
 %Ej4.5
 \subsection{Orden NR2}
 El orden de NR2 es dado por k iteraciones de NR y en cada una de las iteraciones se calcula: la actualización de rango uno de Q (  orden $n^{2}$ ) , la descomposición de Cholesky ultilizando método de Thomas (orden n), y sustitución hacia atrás (  orden $n^{2}$ ) por lo tanto el orden de NR2 es $kn^{2}$. 
 
 %Ej5
 \section{Pruebas Experimentales}
-Quinto problema
+
 %Ej5.1
-\subsection{}
+\subsection{Aplicación de NR2}
+Segun los especificado, se aplico el algoritmo de NR2 con $k = 20$ iteraciones para dimensiones progresivamente mas grandes,
+a fin de verificar su costo computacional y funcionamiento.
+
 %Ej5.2
 \subsection{Verificación de $z^{NR}$}
 En la tabla \ref{tab:table_5_2} se muestra la norma de $F(z)$ para distintos valores de dimension $n$.
@@ -377,6 +475,7 @@ En la tabla \ref{tab:table_5_2} se muestra la norma de $F(z)$ para distintos val
     \end{center}
   \end{table}  
 Se puede ver que para todos los tamaños, se llega casi a anular la función en 20 iteraciones.
+
 %Ej5.3
 \subsection{Tiempo de ejecución de NR2}
 Con el fin de estudiar el tiempo de ejecución del algoritmo de NR2, se lo aplica para distintos valores de dimension $n$.
@@ -403,6 +502,7 @@ Comprobemoslo:
     \text{ C.V.}& \rightarrow y = log(kn^2) \text{ ; } x = log(n) \\
     y &= a + bx
 \end{align}
+
 %Ej5.4
 \subsection{Ajuste polinomial del tiempo de ejecución}
 Utilizando la funcion polyfit de Octave, se ajustan los datos de la sección 5.3 con un polinomio de grado 2.
