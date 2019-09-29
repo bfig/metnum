@@ -272,4 +272,4 @@ $ Q = L_n\sqrt\Delta_n\sqrt\Delta_nL_{n}^{t} $ y llamando $L$ a $L_n\sqrt\Delta_
 obtenemos que $Q = LL^t$ con $L$ triangular inferior hallando asi su descomposicion de Cholesky.
 
 4.5
-El orden de NR2 es dado por k iteraciones de NR y en cada una de las iteraciones se calcula: la actualización de rango uno de Q (  orden n^{2} ) , la descomposición de Cholesky ultilizando método de Thomas (orden n), y sustitución hacia atrás (  orden n^{2} ) por lo tanto el orden de NR2 es kn^{2}. 
+El orden de NR2 es dado por k iteraciones de NR y en cada una de las iteraciones se calcula: la actualización de rango uno de Q (  orden $n^{2}$ ) , la descomposición de Cholesky ultilizando método de Thomas (orden n), y sustitución hacia atrás (  orden $n^{2}$ ) por lo tanto el orden de NR2 es $kn^{2}$. 
