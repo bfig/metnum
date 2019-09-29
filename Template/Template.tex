@@ -222,12 +222,10 @@ Entonces existe una matriz $C\in M ^{n\times n}$ triangular inferior tal que Q p
 se quiere resolver el sistema $AX=b$ con $A \in M ^{n\times n} (\mathbb{R})$ una matriz definida positiva
 factorizamos $A$ de forma de obtener $A = CC^{t} \Rightarrow CC^{t}X =b$
 se hace cambio de variable
-
 \begin{align}
 C^{t}X&= Y\\
 CY &= b
 \end{align}
-
 Se resuelve el sistema triangular (10), C triangular inferior por lo que se usa sustitución hacia adelante:
 \begin{align*}
 y_{1}&=\frac{b_{1}}{c_{11}}\\
@@ -238,29 +236,25 @@ luego se resuelve el sistema (9) que es triangular superior con sustitución hac
 y_{n}=\frac{b_{n}}{c_{nn}}
 y_{i}=\frac{1}{c_{ii}}(b_{i}-\sum _{j=i+1}^{n} c_{ij}x_{j}), i=n-1,...,1
 \end{align*}
-
 \subsection{Orden de resolución de sistemas por Cholesky}
 El orden de resolver los sistemas anteriores son $n\frac{n+1}{2}$  multiplicaciones, divisiones y el número de sumas  y restas es n $\frac{n-1}{2}$
 para resolver el sistema se usa $\mathcal{O}\left(n^{2}\right)$ flops
 Para factorizar $A$ como $CC^{t}$ , se hace cambio de variable $L=C^{t}$ y $L^{t}=C$ de esta forma buscamos $A= L^{t}L$   utilizando descomposición QR se obtiene la factorización, el orden de la misma es de $\frac{1}{3}n^{3}$
 por lo tanto el orden total es $\frac{1}{3}n^{3} + 2n^{2} \approx \frac{1}{3}n^{3}$
 \subsection{Órden de Newton Raphson con Cholesky}
-el algoritmo Newton Raphson tiene k iteraciones en cada una se resuelve el sistema lineal con Cholesky que es de orden $\frac{1}{3}n^{3}$  por lo tanto el orden de NR utilizand Cholesky es de  $\frac{k}{3}n^{3}$
-
+el algoritmo Newton Raphson tiene k iteraciones en cada una se resuelve el sistema lineal con Cholesky que es de orden $\frac{1}{3}n^{3}$  por lo tanto el orden de NR utilizando Cholesky es de  $\frac{k}{3}n^{3}$
+\section{Mínimo de una función en $\mathbb{R}^n$}
 %Ej4.1
 \subsection{Teorema de Gershgorin}
 Se busca probar que la matriz Q es siempre definida positiva usando el Teorema de Gershgorin.
 Dado $Q \in \mathbb{R}^{n \times n}$, se considera el Teorema aplicado a los numeros reales.
-
 Dadas $q_{ij}$ entradas de Q, sea $R_i = \sum_{i \neq j}\left | q_{ij} \right |$ y sea $D(q_{ij},R_i)$
 un entorno cerrado $ [q_{ii}-R_i, q_{ii}+R_i]$, el teorema dice:
 \begin{thm}[Teorema de Gershgorin]
     Todo valor propio de Q esta en al menos uno de los entornos cerrados.
 \end{thm}
-
 Por otro lado, $Q$ es definida positiva sii $\lambda_i > 0$ $\forall \lambda_i$ valor propio de $Q$
 Entonces, basta probar que todos los elementos de los entornos cerrados de Q contienen solo valores positivos.
-
 Especificamente, si $\forall i:$ $1 \leq i \leq n$, $q_{ii} - R_i >0$ entonces $Q$ sera definida positiva.
 Generalizando:
 Los elementos de $Q$ son:
@@ -270,7 +264,6 @@ Los elementos de $Q$ son:
         q_{i,i} = 2i-1 \phantom{-} \forall i = 1,...,n
     \end{cases}
 \end{equation}
-
 Los radios del intervalo son:
 con $n > 1$
 \begin{equation}
@@ -289,30 +282,79 @@ Entonces, para $n > 1$,
     \end{cases}
 \end{equation}
 Se prueba entonces que todos los valores propios de $Q$ son positivos y por tanto es una matriz definida positiva.
-
 %Ej4.2
-\subsection{}
+\subsection{Actualización de rango uno de Q}
+Se utiliza Referencia dada en la letra del Obligatorio:  Walder,  C.  (2010).  RankkCholesky  Up/Down-dating  on  the  GPU:  gpucholmodV0.  2.arXiv preprint arXiv:1011.1173.
 
+
+El algoritmo recorre la matriz $L^{t}$  siendo L matriz de factorización de Cholesky de Q
+y  la va modificando transformandola en la matriz $\bar{L}^{t}$ siendo $\bar{L}$ matriz de factorización de Cholesky de $Q_{a}$.
+Se recorre en un loop inicial por filas de $L^{t}$ , se calcula el elemento de la diagonal de la fila y luego se realiza un loop por las columnas, se calcula en cada elemento el valor dada una fórmula que contiene elementos de la corrida actual y la anterior(la fila anterior).
+Se utilizan las variables s y c para almacenar datos de la corrida anterior que serán usados en el cácluo de la siguiente.
+
+
+$Q=\begin{pmatrix}
+l_{11}                &\sqrt{l_{11}}l_{21}   &...                                &... \\ 
+\sqrt{l_{11}}l_{21}   &l_{21}^{2}+l_{22}^{2} &...                                &... \\ 
+...                   &...                   &l_{31}^{2}+l_{32}^{2}+l_{33}       &... \\
+... \\ 
+ ...                   &...                   &...                               &l_{n1}^{2}+l_{n2}^{2}+...+l_{nn-1}^{2}+l_{nn} 
+\end{pmatrix}$
+
+
+$aa^{t}=\begin{pmatrix}
+a_{1}^{2}         &a_{1}a_{2}     &...  &a_{1}a_{n} \\ 
+a_{2}a_{1}        &a_{2}^{2}      &...       &... \\ 
+ ...                  &...       &...       &... \\
+
+ ...                   &...       &...       &a_{n}^{2} 
+\end{pmatrix}$
+
+$Q_{a}=Q + aa^{t} = \bar{L}\bar{L}^{t}$
+
+se busca obtener $\bar{L}^{t}=\begin{pmatrix}
+\sqrt{ \bar{l}_{11}}          &0     &...  &0 \\ 
+\bar{l}_{21}       &\sqrt{ \bar{l}_{22}}       &...       &0 \\ 
+\bar{l}_{31}                   &...       &...       &0 \\
+
+\bar{l}_{n1}                   &...       &...       &\sqrt{ \bar{l}_{nn}}
+\end{pmatrix}$
+
+
+$\sqrt{ \bar{l}_{11}} =\sqrt{ (\sqrt{{l}_{11})}^{2} +a_{1}^{2}}$
+
+
+$\bar{l}_{21} =  \frac{\sqrt{{l}_{11}}{l}_{21} +a_{2}a_{1}}{\sqrt{(\sqrt{{l}_{11}})^{^{2}}+a_{1}^{2}}}$
+
+
+tenemos elementos de la corrida de la fila 1 y elementos de la corrida de la fila 2 en la que se esta, factorizan esta cuenta de froma de independizar los elementos de la corrida anterior con c y s 
+para este caso:
+
+$c_{1}=\frac{\sqrt{ (\sqrt{{l}_{11})}^{2} +a_{1}^{2}}}{\sqrt{{l}_{11}}}$
+
+
+$s_{1}=\frac{a_{1}}{{l}_{11}}$
+
+
+son utilizados en el cálculo de los elementos que no son de la diagonal
+según la fórmula: $\bar{l}_{ij} =  \frac{{{l}_{ij}} +{s}_{i}a_{j}}{c_{i}}$
 %Ej4.3
-\subsection{}
-
+\subsection{Thomas}
 %Ej4.4
-\subsection{}
-
+\subsection{NR incorporando Cholesky, NR2}
+(ver codigo)
 %Ej4.5
-\subsection{}
+\subsection{Orden NR2}
+El orden de NR2 es dado por k iteraciones de NR y en cada una de las iteraciones se calcula: la actualización de rango uno de Q (  orden $n^{2}$ ) , la descomposición de Cholesky ultilizando método de Thomas (orden n), y sustitución hacia atrás (  orden $n^{2}$ ) por lo tanto el orden de NR2 es $kn^{2}$. 
 
 %Ej5
 \section{Pruebas Experimentales}
 Quinto problema
-
 %Ej5.1
 \subsection{}
-
 %Ej5.2
 \subsection{Verificación de $z^{NR}$}
 En la tabla \ref{tab:table_5_2} se muestra la norma de $F(z)$ para distintos valores de dimension $n$.
-
 \begin{table}[h!]
     \begin{center}
       \caption{Your first table.}
@@ -334,9 +376,7 @@ En la tabla \ref{tab:table_5_2} se muestra la norma de $F(z)$ para distintos val
       \end{tabular}
     \end{center}
   \end{table}  
-
 Se puede ver que para todos los tamaños, se llega casi a anular la función en 20 iteraciones.
-
 %Ej5.3
 \subsection{Tiempo de ejecución de NR2}
 Con el fin de estudiar el tiempo de ejecución del algoritmo de NR2, se lo aplica para distintos valores de dimension $n$.
@@ -349,7 +389,6 @@ A continuación se muestran los resultados:
     \caption{Tiempo de ejecución del algoritmo NR2.}
     \label{fig:Grafica_5_3_1}
 \end{figure}
-
 \begin{figure}[h!]
     \includegraphics[width=\linewidth]{Grafica_5_3_2.png}
     \caption{Tiempo de ejecución del algoritmo NR2 en escala logaritmica.}
@@ -364,7 +403,6 @@ Comprobemoslo:
     \text{ C.V.}& \rightarrow y = log(kn^2) \text{ ; } x = log(n) \\
     y &= a + bx
 \end{align}
-
 %Ej5.4
 \subsection{Ajuste polinomial del tiempo de ejecución}
 Utilizando la funcion polyfit de Octave, se ajustan los datos de la sección 5.3 con un polinomio de grado 2.
@@ -374,7 +412,5 @@ Utilizando la funcion polyfit de Octave, se ajustan los datos de la sección 5.3
     \label{fig:Grafica_5_4}
 \end{figure}
 Como se ve en la figura, con un polinomio de grado 2 se logran ajustar correctamente los datos.
-
-
 \clearpage
 \end{document}\grid
