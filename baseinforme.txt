@@ -171,49 +171,57 @@ El método de Cholesky es de orden n^{3}  por lo tanto el orden de NR utilizando
 
 4.2
 
-El algoritmo recorre la matriz L^{t}  siendo L matriz de factorización de Cholesky de Q.
-y  la va modificando transformandola en la matriz \bar{L}^{t} siendo \bar{L} matriz de factorización de Cholesky de Q_{a}.
-Se recorre en un loop inicial por filas de L^{t} , se calcula el elemento de la diagonal de la fila y luego se realiza un loop por las columnas, se calcula en cada elemento el valor dada una fórmula que contiene elementos de la corrida actual y la anterior(la fila anterior).
+El algoritmo recorre la matriz $L^{t}$  siendo L matriz de factorización de Cholesky de Q
+y  la va modificando transformandola en la matriz $\bar{L}^{t}$ siendo $\bar{L}$ matriz de factorización de Cholesky de $Q_{a}$.
+Se recorre en un loop inicial por filas de $L^{t}$ , se calcula el elemento de la diagonal de la fila y luego se realiza un loop por las columnas, se calcula en cada elemento el valor dada una fórmula que contiene elementos de la corrida actual y la anterior(la fila anterior).
 Se utilizan las variables s y c para almacenar datos de la corrida anterior que serán usados en el cácluo de la siguiente.
 
-Q=\begin{pmatrix}
-l_{11}                \sqrt{l_{11}}l_{21}   ...                                ... \\ 
-\sqrt{l_{11}}l_{21}   l_{21}^{2}+l_{22}^{2} ...                                ... \\ 
- ...                   ...                  l_{31}^{2}+l_{32}^{2}+l_{33}       ... \\
+
+$Q=\begin{pmatrix}
+l_{11}                &\sqrt{l_{11}}l_{21}   &...                                &... \\ 
+\sqrt{l_{11}}l_{21}   &l_{21}^{2}+l_{22}^{2} &...                                &... \\ 
+...                   &...                   &l_{31}^{2}+l_{32}^{2}+l_{33}       &... \\
 ... \\ 
- ...                   ...                   ...                               l_{n1}^{2}+l_{n2}^{2}+...+l_{nn-1}^{2}+l_{nn} 
-\end{pmatrix}
+ ...                   &...                   &...                               &l_{n1}^{2}+l_{n2}^{2}+...+l_{nn-1}^{2}+l_{nn} 
+\end{pmatrix}$
 
 
+$aa^{t}=\begin{pmatrix}
+a_{1}^{2}         &a_{1}a_{2}     &...  &a_{1}a_{n} \\ 
+a_{2}a_{1}        &a_{2}^{2}      &...       &... \\ 
+ ...                  &...       &...       &... \\
 
-aa^{t}=\begin{pmatrix}
-a_{1}^{2}         a_{1}a_{2}     ...  a_{1}a_{n} \\ 
-a_{2}a_{1}        a_{2}^{2}      ...       ... \\ 
- ...                   ...       ...       ... \\
+ ...                   &...       &...       &a_{n}^{2} 
+\end{pmatrix}$
 
- ...                   ...       ...       a_{n}^{2} 
-\end{pmatrix}
+$Q_{a}=Q + aa^{t} = \bar{L}\bar{L}^{t}$
 
-Q_{a}=Q + aa^{t} = \bar{L}\bar{L}^{t}
+se busca obtener $\bar{L}^{t}=\begin{pmatrix}
+\sqrt{ \bar{l}_{11}}          &0     &...  &0 \\ 
+\bar{l}_{21}       &\sqrt{ \bar{l}_{22}}       &...       &0 \\ 
+\bar{l}_{31}                   &...       &...       &0 \\
 
-se busca obtener \bar{L}^{t}=\begin{pmatrix}
-\sqrt{ \bar{l}_{11}}          0     ...  0 \\ 
-\bar{l}_{21}       \sqrt{ \bar{l}_{22}}       ...       0 \\ 
-\bar{l}_{31}                   ...       ...       0 \\
-
-\bar{l}_{n1}                   ...       ...       \sqrt{ \bar{l}_{nn}} 
-\end{pmatrix}
+\bar{l}_{n1}                   &...       &...       &\sqrt{ \bar{l}_{nn}}
+\end{pmatrix}$
 
 
-\sqrt{ \bar{l}_{11}} =\sqrt{ (\sqrt{{l}_{11})}^{2} +a_{1}^{2}}
-\bar{l}_{21} =  \frac{\sqrt{{l}_{11}}{l}_{21} +a_{2}a_{1}}{\sqrt{(\sqrt{{l}_{11}})^{^{2}}+a_{1}^{2}}}
+$\sqrt{ \bar{l}_{11}} =\sqrt{ (\sqrt{{l}_{11})}^{2} +a_{1}^{2}}$
+
+
+$\bar{l}_{21} =  \frac{\sqrt{{l}_{11}}{l}_{21} +a_{2}a_{1}}{\sqrt{(\sqrt{{l}_{11}})^{^{2}}+a_{1}^{2}}}$
+
 
 tenemos elementos de la corrida de la fila 1 y elementos de la corrida de la fila 2 en la que se esta, factorizan esta cuenta de froma de independizar los elementos de la corrida anterior con c y s 
-para este caso
-c_{1}=\frac{\sqrt{ (\sqrt{{l}_{11})}^{2} +a_{1}^{2}}}{\sqrt{{l}_{11}}}
-s_{1}=\frac{a_{1}}{{l}_{11}}
+para este caso:
+
+$c_{1}=\frac{\sqrt{ (\sqrt{{l}_{11})}^{2} +a_{1}^{2}}}{\sqrt{{l}_{11}}}$
+
+
+$s_{1}=\frac{a_{1}}{{l}_{11}}$
+
+
 son utilizados en el cálculo de los elementos que no son de la diagonal
-según la fórmula:  \bar{l}_{ij} =  \frac{{{l}_{ij}} +{s}_{i}a_{j}}{c_{i}}
+según la fórmula: $\bar{l}_{ij} =  \frac{{{l}_{ij}} +{s}_{i}a_{j}}{c_{i}}$
 
 
 
