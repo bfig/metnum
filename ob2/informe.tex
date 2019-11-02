@@ -1,0 +1,210 @@
+\documentclass{endm}
+\usepackage{endmmacro}
+\usepackage{graphicx}
+\usepackage{amssymb,amsmath,latexsym}
+\usepackage[varg]{pxfonts}
+%%%%%% ENTER ADDITIONAL PACKAGES
+%\usepackage{graphics}
+\usepackage{pst-all}
+\usepackage{graphicx}
+
+\usepackage{amsfonts}
+\usepackage{amssymb} % ADDED
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage{fancybox}
+\usepackage{algorithm}
+%\usepackage{algorithmic}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{setspace}
+\usepackage{courier}
+\usepackage{verbatim}
+\usepackage{hhline}
+\usepackage{etex}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows,automata}
+\usetikzlibrary{matrix,positioning,arrows,decorations.pathmorphing,shapes}
+\usetikzlibrary{shapes,snakes}
+\usepackage{graphicx}
+%---------------
+\usepackage{subfigure}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\makeatletter
+\let\c@author\relax
+\makeatother
+\usepackage[backend=bibtex,style=alphabetic,
+sorting=ynt
+]{biblatex}
+\addbibresource{sources.bib}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+
+\floatname{algorithm}{Algorithm}
+
+
+\def\lastname{Please list your Lastname here}
+
+\begin{document}
+
+
+\begin{frontmatter}
+
+\title{Métodos Numéricos 2019 - Obligatorio 2}
+
+\author{Bruno Figares (4391788-8),}
+\author{Adrián Gioda (4954044-5),}
+\author{Daniel Martinez (4462694-5),}
+\author{Adriana Soucoff (3190794-8)}
+
+\address{Instituto de Matem\'atica y Estad\'istica\\ Facultad de Ingenier\'ia. Universidad de la Rep\'ublica\\ Montevideo, Uruguay}
+
+\end{frontmatter}
+
+
+\section{Mínimos Cuadrados}
+%Ej2.1
+\subsection{Transformación a PMCL}
+El modelo de ambas funciones tiene la forma $y = cx^{-p}$. Esta puede transformarse en una relación
+lineal aplicando un logaritmo a ambos lados de la expresión de esta forma, $log(y) = log(cx^{-p})$.
+Por propiedades de los logaritmos, la expresión se reduce a $log(y) = log(c) + (-p)log(x)$.
+Aplicando cambios de variable apropiados, se obtiene la relación lineal $Y = c_2 + c_1X$.
+
+Se busca el vector $C$ de coeficientes que minimizá $||AC - Y||^2_2$,
+con $A = \begin{pmatrix}X_1 & 1 \\ \vdots & \vdots \\ X_m & 1 \end{pmatrix}$.
+Para esto se deben resolver las ecuaciones normales $A^tAC = A^tY$.
+
+Resolución de las ecuaciones normales:
+
+Aplicación de descomposición QR:
+Debido a que el calculo de $A^tA$ esta mal condicionado, se aplica la descomposición QR de $A$.
+Teniendo que $A \in \mathcal{M}_{m \times n}$, con $m > n$ tiene rango completo (sus columnas son LI),
+por el teorema 4.3.1 de los apuntes se tiene que existen matrices $Q \in \mathcal{M}_{m \times m}$,
+$R \in \mathcal{M}_{m \times n}$ tales que $A = QR$. Con $Q$ ortogonal
+y $R$ triangular superior de la forma \begin{pmatrix} R_1 \\ 0 \end{pmatrix} con $R_1 \in \mathcal{M}_{n \times n}$.
+
+Sustituyendo $A$ por $QR$, el problema de minimizacion se torna $min ||QRC - Y||^2_2$.
+Separando a $Q$ en dos partes $[Q_1 Q_2]$ tal que $Q_1 \in \mathcal{M}_{m \times n}$ y
+$Q_2 \in \mathcal{M}_{m \times (m-n)}$ y operando, se llega al problema de minimizacion $min ||R_1C - Q_1^tY||^2_2$
+cuya solución proviene del sistema de ecuaciones $R_1C = Q_1^tY$, que como $R_1$ es triangular superior se resuelve con
+sustitución hacia atrás.
+
+% Falta mostrar las matrices A, Y, Q1, R1 y la solucion C. Ademas hay que poner las graficas. %
+
+
+
+%Ej2.2
+\subsection{Resolución por Gauss-Newton}
+
+
+%Ej2.3
+\subsection{Comparación de los Métodos}
+
+
+%Ej3
+\section{Ecuaciones Diferenciales}
+Se busca resolver el siguiente problema de valores iniciales:
+\begin{equation*}
+    (PVI):\begin{cases}
+        y'(x) = -g_1(x)y + g_2(x) \\
+        y(1/2) = 0
+    \end{cases}
+\end{equation*}
+
+%Ej3.1
+\subsection{Resolución Analítica}
+Se resuelve analíticamente en primer lugar a fin de poder evaluar la solución provista por distintos métodos numéricos.
+En la parte 2 se vio que $g_1(x) = cx^{-2}$ y $g_2(x) = dx^{-3}$ con $c,d \in \mathbb{R}$.
+La ecuación diferencial es entonces:
+\begin{equation}
+    y' + \frac{c}{x^2}y = \frac{d}{x^3}
+\end{equation}
+Solución de la homogénea:
+\begin{cases}
+    y' + \frac{c}{x^2}y = 0 \\
+    y_h = exp(-\int cx^{-2}dx) \\
+    y_h = ke^{c/x}
+\end{cases}
+Variación de constantes:
+Se escribe la función $y$ como $y = k(x)e^{c/x}$. La idea es obtener la expresión de $k(x)$.
+Se deriva $y$: $y' = k'(x)e^{c/x} + k(x)\left(-\frac{c}{x^2}e^{c/x}\right)$
+Sustituyendo en la EDO, se cancelan dos términos y se despeja $k'(x)$. Integrando la expresión resultante se obtiene $k(x)$.
+\begin{equation}
+    k(x) = \int \frac{d}{x^3}e^{-c/x}dx
+\end{equation}
+Aplicando integración por partes con $u = \frac{d}{x}$, $du = -\frac{d}{x^2}$, $v = e^{-c/x}$ y $dv = \frac{c}{x^2}e^{c/x}$ se llega a:
+\begin{equation}
+    k(x) = \frac{1}{c}\left( \frac{d}{x}e^{-c/x} + C_1 + \frac{d}{c}\int e^{-c/x}\frac{c}{x^2}dx \right)
+\end{equation}
+Aplicando integración por sustitución con la misma $v$ y $dv$ se tiene que:
+\begin{equation}
+    k(x) = \frac{1}{c}\left( \frac{d}{x}e^{-c/x} + C_1 + \frac{d}{c}e^{-c/x} + C_2 \right) =
+    \frac{d}{c}e^{-c/x}\left( \frac{1}{x} + \frac{1}{c} \right) + k
+\end{equation}
+Finalmente se llega a la expresión de $y$:
+\begin{equation}
+    y(x) = \frac{d}{c^2} + \frac{d}{cx}+ ke^{c/x}
+\end{equation}
+Usando la condición inicial $y(1/2) = 0$ se halla que $k = -\frac{d}{c}\left( \frac{1}{c} + 2 \right)e^{-2c}$.
+
+%Ej3.2
+\subsection{Métodos de Euler}
+
+
+%Ej3.3
+\subsection{Implementación de los Métodos de Eueler}
+
+
+%Ej3.4
+\subsection{Método de Runge-Kutta}
+
+
+%Ej3.5
+\subsection{Comparación de los Resultados}
+
+
+%Ej4
+\section{Interpolación}
+
+%Ej4.1
+\subsection{Interpolación Lineal a Trozos}
+
+
+%Ej4.2
+\subsection{Interpolación con Splines Cúbicos}
+
+
+%Ej4.3
+\subsection{Comparación de los Resultados}
+
+
+\clearpage
+\printbibliography
+\end{document}\grid
