@@ -1,8 +1,13 @@
 X = [0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0];
 Y1 = [3.89,2.75,2.01,1.61,1.21,0.89,0.69,0.63,0.44,0.42,0.70,0.32,0.40,0.26,0.32,0.25];
 Y2 = [15.96,9.45,5.75,3.82,2.89,2.17,1.22,1.05,0.86,0.63,0.69,0.40,0.44,0.29,0.43,0.20];
+X2 = X;
+X2(11) = [];
+Y12 = Y1;
+Y12(11)= [];
 
 g = @(ci,p) @(x) ci/x^p;
+lsval = @(X,Y) @(PC) norm(Y-PC(2)*X.^(-PC(1)));
 
 function res = Dhat(ci,p,X,Y)
   res = 0;
@@ -11,6 +16,7 @@ function res = Dhat(ci,p,X,Y)
     res += (g(ci,p)(X(x)) - Y(x))^2;
   endfor
 endfunction
+
 
 function res = DifDhat(ci,p,X,Y)
   res = -2*ci;
@@ -26,8 +32,15 @@ function pn = NRstep(ci,oldp,X,Y)
   pn = oldp - Dhat(ci,oldp,X,Y)/DifDhat(ci,oldp,X,Y);
 endfunction
 
-function ci = PMCL(p,X,Y)
-  
+function PCk = PMCNL(PCinit,X,Y,iter=10)
+  fun = @(PC) PC(2)*X.^(-PC(1))
+  diffun = @(PC) [(-PC(2)*X.^(-PC(1)).*log(X))' (X.^(-PC(1)))']
+  PCk = PCinit;
+  for i = 1:iter 
+    Ak = diffun(PCk);
+    Yk = Y' - fun(PCk)';
+    PCk = PCk + ols(Yk,Ak);
+  endfor
 endfunction
 
 function plotbasic(ci,p,X,Y)
@@ -56,6 +69,8 @@ function plotiterNR(X,Y,p0,iter=10)
   endfor
   hold off
 endfunction
+
+
 
 #todo mal
 function errorsfc(X,Y,P,C)

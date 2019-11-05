@@ -112,11 +112,11 @@ siendo $n$ el largo del vector $X$ tenemos las ecuaciones normales
 \sum X * Y = c_1 * \sum X + c_2 * \sum X^2
 \end{cases}
 \end{equation}  \\
-Siendo C=\begin{pmatrix}
+Siendo \begin{equation*}C=\begin{pmatrix}
           c_1 & \\
           c_2
          \end{pmatrix} \\
-         
+\end{equation*}
 Resolvemos : $ C=(A^t * A) \setminus  (A^t * Y)$ \\
 Finalmente obtenemos:  $c= exp(c_1)$, $p = -c_2$ \\
 
@@ -126,7 +126,7 @@ Debido a que el calculo de $A^tA$ esta mal condicionado, se aplica la descomposi
 Teniendo que $A \in \mathcal{M}_{m \times n}$, con $m > n$ tiene rango completo (sus columnas son LI),
 por el teorema 4.3.1 de los apuntes se tiene que existen matrices $Q \in \mathcal{M}_{m \times m}$,
 $R \in \mathcal{M}_{m \times n}$ tales que $A = QR$. Con $Q$ ortogonal
-y $R$ triangular superior de la forma \begin{pmatrix} R_1 \\ 0 \end{pmatrix} con $R_1 \in \mathcal{M}_{n \times n}$.
+y $R$ triangular superior de la forma  \begin{equation*} \begin{pmatrix} R_1 \\ 0 \end{pmatrix}\end{equation*} con $R_1 \in \mathcal{M}_{n \times n}$.
 
 Sustituyendo $A$ por $QR$, el problema de minimizacion se torna $min ||QRC - Y||^2_2$.
 Separando a $Q$ en dos partes $[Q_1 Q_2]$ tal que $Q_1 \in \mathcal{M}_{m \times n}$ y
@@ -165,11 +165,13 @@ La ecuación diferencial es entonces:
     y' + \frac{c}{x^2}y = \frac{d}{x^3}
 \end{equation}
 Solución de la homogénea:
+ \begin{equation*}
 \begin{cases}
     y' + \frac{c}{x^2}y = 0 \\
     y_h = exp(-\int cx^{-2}dx) \\
     y_h = ke^{c/x}
 \end{cases}
+\end{equation*}
 Variación de constantes:
 Se escribe la función $y$ como $y = k(x)e^{c/x}$. La idea es obtener la expresión de $k(x)$.
 Se deriva $y$: $y' = k'(x)e^{c/x} + k(x)\left(-\frac{c}{x^2}e^{c/x}\right)$
