@@ -102,6 +102,24 @@ con $A = \begin{pmatrix}X_1 & 1 \\ \vdots & \vdots \\ X_m & 1 \end{pmatrix}$.
 Para esto se deben resolver las ecuaciones normales $A^tAC = A^tY$.
 
 Resolución de las ecuaciones normales:
+desarrollamos para el caso de $g_{1}$ es análogo para $g_{2}$ sustituyendo $c$ por $d$ y $p$ por $q$ 
+
+$Y =log(y)$ , $X =log(x)$ , $c_1= log(c)$, $c_2= -p$ \\
+siendo $n$ el largo del vector $X$ tenemos las ecuaciones normales
+\begin{equation}
+\begin{cases}
+\sum Y = n * c_1 + c_2 * \sum X \\
+\sum X * Y = c_1 * \sum X + c_2 * \sum X^2
+\end{cases}
+\end{equation}  \\
+Siendo C=\begin{pmatrix}
+          c_1 & \\
+          c_2
+         \end{pmatrix} \\
+         
+Resolvemos : $ C=(A^t * A) \setminus  (A^t * Y)$ \\
+Finalmente obtenemos:  $c= exp(c_1)$, $p = -c_2$ \\
+
 
 Aplicación de descomposición QR:
 Debido a que el calculo de $A^tA$ esta mal condicionado, se aplica la descomposición QR de $A$.
