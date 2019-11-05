@@ -91,3 +91,86 @@ function errorsfc(X,Y,P,C)
   zlabel ("tz");
   title ("3-D Sombrero plot");
 endfunction
+
+function plotspline(X,Y)
+  
+  c = 0.96750; % con outlier
+  p = 2; % con outlier
+  % [c p] = [2 0.94613] sin outlier
+
+  % Funcion g2(x) = d/x^q
+  d = 1.9949;
+  q = 3;
+
+  % EDO:
+  % y' = g1(x)*y = g2(x)
+  % y(0.5) = 0
+  % x in [0.5 .. 2]
+
+  ecdif = @(x,y) -c*y/x^2 + d/x^3;
+  
+  a = 0.5;
+  b = 2;
+  y0 = 0;
+  % calculo paso h dentro de region de estabilidad.
+  h = 0.015 ; % VALOR PROVISORIO %
+  N = ceil((b-a)/h);
+  % Recalculo h
+  h = (b-a)/N;
+
+  x_exacta = linspace(a,b,100);
+  % sol analitica con p = 2 y q = 3:
+  k = (-d/c)*(1/c + 2)*exp(-2*c); % obtenido con la cond inicial.
+  y_exacta = d/c^2 + d./(c*x_exacta) + k*exp(c./x_exacta);
+  
+  
+  [x_RK, y_RK] = ode45(ecdif, [a b], y0);
+  plot(x_RK, y_RK, "k")
+  sp = linspace(X(1),X(end));
+  spp = spline(x_RK,y_RK,sp);
+  hold on
+  plot(sp,spp);
+  plot(x_RK,y_RK);
+  hold off
+endfunction
+
+function plotinterp(X,Y)
+  
+  c = 0.96750; % con outlier
+  p = 2; % con outlier
+  % [c p] = [2 0.94613] sin outlier
+
+  % Funcion g2(x) = d/x^q
+  d = 1.9949;
+  q = 3;
+
+  % EDO:
+  % y' = g1(x)*y = g2(x)
+  % y(0.5) = 0
+  % x in [0.5 .. 2]
+
+  ecdif = @(x,y) -c*y/x^2 + d/x^3;
+  
+  a = 0.5;
+  b = 2;
+  y0 = 0;
+  % calculo paso h dentro de region de estabilidad.
+  h = 0.015 ; % VALOR PROVISORIO %
+  N = ceil((b-a)/h);
+  % Recalculo h
+  h = (b-a)/N;
+
+  x_exacta = linspace(a,b,100);
+  % sol analitica con p = 2 y q = 3:
+  k = (-d/c)*(1/c + 2)*exp(-2*c); % obtenido con la cond inicial.
+  y_exacta = d/c^2 + d./(c*x_exacta) + k*exp(c./x_exacta);
+  
+  
+  [x_RK, y_RK] = ode45(ecdif, [a b], y0);
+  sp = linspace(X(1),X(end));
+  spp = interp1(x_RK,y_RK,sp);
+  hold on
+  plot(sp,spp);
+  plot(x_RK, y_RK, "k")
+  hold off
+endfunction

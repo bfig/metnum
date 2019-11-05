@@ -50,6 +50,10 @@ function ans = ecdif(x,y)
     ans = -c*y/x^2 + d/x^3;
 end
 
+% interpolacion por splines cubicas
+sp = linspace(a,b,100);
+spp = spline(x_RK,y_RK,sp);
+
 [x_RK, y_RK] = ode45(@ecdif, [a b], y0);
 
 % Graficas comparativas de Euler hacia atras, Euler hacia adelante, R-K y sol analitica:
@@ -64,15 +68,14 @@ plot(x, y_EA, "m")
 % Runge-Kuta
 plot(x_RK, y_RK, "k")
 
+
+% interpolacion por splines cubicas
+plot(sp,spp,"b--");
+
 axis ([a b])
 title ("Sol de la EDO");
 xlabel ("x");
 ylabel ("y");
-%legend("Sol Analitica", "Euler hacia adelante", "Euler hacia atras", "Runge-Kuta");
 hold off
-legend_text = legend ("Sol Analitica", "Euler hacia adelante", "Euler hacia atras", "Runge-Kuta");
+legend_text = legend ("Sol Analitica", "Euler hacia adelante", "Euler hacia atras", "Runge-Kuta","Spline Cúbica");
 legend (legend_text, "location", "southeast");
-% CAMBIOS A REALIZAR:
-% Forzar el rango de la grafica en [a b].
-% Cambiar la posicion de la leyenda a la esquina inferior derecha.
-% -----------------------------------------------------------------------------------
