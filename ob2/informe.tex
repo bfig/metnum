@@ -224,7 +224,29 @@ Usando la condición inicial $y(1/2) = 0$ se halla que $k = -\frac{d}{c}\left( \
 
 %Ej3.2
 \subsection{Métodos de Euler}
+% Euler hacia adelante %
 
+El método de Euler hacia atrás estima la derivada en el punto $x_{n+1}$ imponiendo $y'(x_{n+1}) = \frac{y_{n+1} - y_n}{h} = f(x_{n+1},y_{n+1})$.
+Entonces se tiene la iteración:
+\begin{cases}
+    y_{k+1} = y_k + hf(x_{k+1},y_{k+1}) \\
+    y_0 = y_{inicial}
+\end{cases}
+Debido a que $y_{k+1}$ aparece en ambos lados de la ecuación, este es un método implícito. Sin embargo, si
+$f$ es lineal en $y$, se puede obtener una formulación explicita.
+
+En este caso, la EDO a resolver es $y' = f(x,y) = \frac{d}{x^3} - \frac{c}{x^2}y$. Dado que $f$ es lineal en $y$, se desarrolla
+la formulación explicita para $y_{k+1}$.
+\begin{align*}
+    y_{k+1} &= y_k + hf(x_{k+1},y_{k+1}) \\
+    &= y_k + h\left( \frac{d}{x_{k+1}^3} - \frac{c}{x_{k+1}^2}y_{k+1} \right)
+\end{align*}
+Despejando $y_{k+1}$ se obtiene:
+\begin{equation}
+    y_{k+1} = \frac{y_k + \frac{hd}{x_{k+1}^3}}{1 + \frac{hc}{x_{k+1}^2}}
+    % otra forma menos compacta: %
+    %y_{k+1} = \left( \frac{1}{1 + \frac{hc}{x_{k+1}^2}} \right) \left( y_k + \frac{hd}{x_{k+1}^3}\right)%
+\end{equation}.
 
 %Ej3.3
 \subsection{Implementación de los Métodos de Eueler}
@@ -232,7 +254,21 @@ Usando la condición inicial $y(1/2) = 0$ se halla que $k = -\frac{d}{c}\left( \
 
 %Ej3.4
 \subsection{Método de Runge-Kutta}
+Los métodos de Runge-Kuta calculan el valor de un punto $y_{n+1}$ a partir del punto anterior $y_n$ y de
+un promedio ponderado de las derivadas en distintos puntos en el intervalo $[x_n, x_{n+1}]$.
+El usado para esta sección es el implementado por la función ode45 de Octave.
+Este es un método de 6 etapas de orden 5 y funciona de la siguiente manera:
+Empezando en el punto $(x_n,y_n)$ con pendiente $s_1 = y' = f(x_n,y_n)$ y un paso $h$ de tamaño apropiado,
+se busca computar $y_{n+1}$ en el punto $x_{n+1} + h$.
+Usando "Euler hacia adelante" con la pendiente $s_1$ y una fracción del paso $h$ se obtiene un segundo punto
+con el cual se calcula la pendiente $s_2$. Este proceso se repite hasta conseguir $s_6$.
+Mediante un promedio ponderado entre las 6 pendientes se calcula $y_{n+1}$
+Se calcula una ultima pendiente $s_7$ en $(x_{n+1},y_{n+1})$ que servirá para calcular una estimación
+del error que sera usado para decidir el paso $h$ para el calculo del siguiente punto.
 
+La función ode45 produce una sucesión de puntos $(x_n,y_n)$ que parecen ser demasiado espaciados como se vera
+en las gráficas de la sección siguiente. Debido a esto, puede necesitarse un interpolador para poder crear una
+gráfica mas suave en Octave. Esto se mostrara en la sección 3.
 
 %Ej3.5
 \subsection{Comparación de los Resultados}
