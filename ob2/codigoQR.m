@@ -16,64 +16,63 @@ X_cv = log(X);
 Y1_cv = log(Y1);
 Y2_cv = log(Y2);
 
-A = [X_cv ones(m,1)];
-% Descomposicion QR de A:
-% [Q, R] = qr(A);
-% Resulta mejor calcular Q_r y R_r directamente
-% Q = [Q_r Q2]
-Q_r = zeros(m,n);
-Q_r(:,1) = A(:,1)/norm(A(:,1));
-for i = 2:n;
+function C = PMCLQR(A,Y)
+  % Resuelve el PMCL  min(|| AC - Y ||^2) usando descomp QR
+  % Matriz A m x n ; vector Y m x 1
+  % Calculo matriz Q reducida (1eras n filas de Q)
+  % Q = [Q_r Q2]
+  [m n] = size(A);
+  Q_r = zeros(m,n);
+  Q_r(:,1) = A(:,1)/norm(A(:,1));
+  for i = 2:n;
     aux = A(:,i);
     for j = 1:(i-1);
-        aux = aux - dot(A(:,i),Q_r(:,j))*Q_r(:,j);
+      aux = aux - dot(A(:,i),Q_r(:,j))*Q_r(:,j);
     end
-    Q_r(:,i) = aux/norm(aux);
-end
-
-% R = [   R_r  ]
-%     [0 0 .. 0]
-% R_r = R(1:n,:);% 1eras n filas de R
-R_r = Q_r'*A;
-% Los elementos fuera del triangulo quedan en x10^-17 etc, entonces los hago cero.
-for i = 1:n;
+  Q_r(:,i) = aux/norm(aux);
+  end
+  % Calculo matriz R reducida (1eras n filas de R)
+  % R = [   R_r  ]
+  %     [0 0 .. 0]
+  R_r = Q_r'*A;
+  % Los elementos fuera del triangulo quedan en x10^-17 etc, entonces los hago cero.
+  for i = 1:n;
     for j = 1:(i-1);
-        R_r(i,j) = 0;
+    R_r(i,j) = 0;
     end
-end
+  end
+  % Resuelvo el sistema por sustitucion hacia atras
+  ec_opt.UT = true;
+  C = linsolve(R_r,Q_r'*Y,ec_opt);
+end % PMCLQR
+
+A = [X_cv ones(m,1)];
+
 %--------------
 % Funcion g1: %
 %--------------
-% QtY1_1 = (Q'*Y1_cv)(1:n); % 1eros n elementos del vector Q'Y
-QtY1_1 = Q_r'*Y1_cv;
-
 % resuelvo el sist lineal R1X = (Q'Y)_1 con R1 matriz triangular superior, resolver con sustitucion hacia atras.
-ec1_opt.UT = true;
-Param_1 = linsolve(R_r,QtY1_1,ec1_opt);
+Param_1 = PMCLQR(A,Y1_cv);
 % solucion es y = X(1).t + X(2)
 % y = c.x^(-p) ; log(y) = -p.log(x) + log(c) ; y_cv = A.t + B
 p = round(-Param_1(1));
 c = exp(Param_1(2));
 
 % Valor minimizado: ||AX - Y||^2
-dist_g1 = sum((c*X.^(-p) - Y1).^2);
+error_g1 = sum((c*X.^(-p) - Y1).^2);
 
 %--------------
 % Funcion g2: %
 %--------------
-% QtY1_2 = (Q'*Y2_cv)(1:n); % 1eros n elementos del vector Q'Y
-QtY1_2 = Q_r'*Y2_cv;
-
 % resuelvo el sist lineal R1X = (Q'Y)_1 con R1 matriz triangular superior, resolver con sustitucion hacia atras.
-ec2_opt.UT = true;
-Param_2 = linsolve(R_r,QtY1_2,ec2_opt);
+Param_2 = PMCLQR(A,Y2_cv);
 % solucion es y = X(1).t + X(2)
 % y = d.x^(-q) ; log(y) = -q.log(x) + log(d) ; y_cv = A.t + B
 q = round(-Param_2(1));
 d = exp(Param_2(2));
 
 % Valor minimizado: ||AX - Y||^2
-dist_g2 = sum((d*X.^(-q) - Y2).^2);
+error_g2 = sum((d*X.^(-q) - Y2).^2);
 
 %---------------------------------------
 % Graficas para correccion del modelo: %

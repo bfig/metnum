@@ -45,14 +45,10 @@ end
 
 % Runge-Kuta con ode solver ode45()
 function ans = ecdif(x,y)
-    c = 0.96140;
-    d = 1.9598;
+    c = 0.96750;
+    d = 1.9949;
     ans = -c*y/x^2 + d/x^3;
 end
-
-% interpolacion por splines cubicas
-sp = linspace(a,b,100);
-spp = spline(x_RK,y_RK,sp);
 
 [x_RK, y_RK] = ode45(@ecdif, [a b], y0);
 
@@ -68,14 +64,11 @@ plot(x, y_EA, "m")
 % Runge-Kuta
 plot(x_RK, y_RK, "k")
 
-
-% interpolacion por splines cubicas
-plot(sp,spp,"b--");
-
 axis ([a b])
 title ("Sol de la EDO");
 xlabel ("x");
 ylabel ("y");
 hold off
-legend_text = legend ("Sol Analitica", "Euler hacia adelante", "Euler hacia atras", "Runge-Kuta","Spline Cúbica");
+legend_text = legend ("Sol Analitica", "Euler hacia adelante", "Euler hacia atras", "Runge-Kuta");
 legend (legend_text, "location", "southeast");
+% -----------------------------------------------------------------------------------
