@@ -140,11 +140,39 @@ sustitución hacia atrás.
 
 %Ej2.2
 \subsection{Resolución por Gauss-Newton}
+Otra manera de resolver el problema sin tener que utilizar logaritmos es a través del uso de los polinomios de taylor lineales. Para esto, para ajustar los puntos $X_i,Y_i$, con $ i \in \{1,..,n\}$
 
+\begin{align*}
+&F(c,p) =||X_{c,p} - Y||^2_2 \\
+&X_{c,p} = c*X_i^p \forall i \in \{1,..n\}
+\end{align*}
+
+Con este problema nuevo, asumimos que estamos cerca de una solución y linealizamos el problema a través del polinomio de taylor de orden 1, con la posibilidad de obtener una solución con un error acotado por el cuadrado de la distancia de la solución inicial $k$
+\begin{equation*}
+F_k = ||  F(k) + \Delta F(k)\Delta_{c,p} - Y + o(\Delta_{c,p}^2)||^2_2\\
+\end{equation*}
+Haciendo los siguientes cambios de variable obtenemos una secuencia de PMCL que podemos resolver y encontrar soluciones progresivamente mejores
+\begin{align*}
+&F_{k_i} \equiv || F(k_i) + \Delta F(k_i)\Delta_{c,p} - Y||^2_2\\
+&Y_{k_i} = Y - F(k_i) \\
+&k_{i+1} = k_i + \min_{\Delta_{c,p}} || \Delta F(k_i)\Delta_{c,p} - Y_{k_i} ||^2_2
+\end{align*}
 
 %Ej2.3
 \subsection{Comparación de los Métodos}
+Los métodos todos llegan a una solución similar, si bien en este caso la solución funciona bien, en otros casos puede que la transformación cambie sustancialmente la precisión del error ya que el logaritmo afecta de manera más profunda a ciertos puntos que a otros. Si los puntos de la gráfica ajustan perfectamente a una curva con los valores, podemos llegar al mismo número con ambas soluciones, pero sino pasa esto (todos los casos que realmente nos importan donde estamos encontrando una mejor aproximación) hay que comparar la fórmula de los errores de las derivadas parciales de las coordenadas de Y frente a la función de ajuste. Se utiliza una simplificación de la fórmula del error asumiendo que la función de ajuste se mantiene estática con el mejor ajuste previo para el punto para mantener el análisis simple.
 
+\begin{align*}
+&Err(Y_i)= (X_i-Y_i)^2\\
+&Err_{log}(Y_i)= (log(X_i)-log(Y_i))^2\\
+\end{align*}
+entonces
+\begin{align*}
+&\frac{\delta Err}{\delta Y_i} = 2Y_i - 2X_i\\
+&\frac{\delta Err_{log}}{\delta Y_i} = 2\frac{log(Y_i)-log(X_i)}{Y_i}\\
+\end{align*}
+
+Conforme los errores sean mayores, el PMCL simplificado va a dar soluciones que valoren menos el error puntual en proporción en el caso de los logaritmos. Por otro lado, es mucho más fácil de calcular con logaritmos. Una cosa que se podría hacer para un problema genérico del estilo es usar primero el problema simplificado con logaritmos y después usar Newton Raphson para llegar a una solución al problema inicial.
 
 %Ej3
 \section{Ecuaciones Diferenciales}
@@ -212,8 +240,7 @@ Usando la condición inicial $y(1/2) = 0$ se halla que $k = -\frac{d}{c}\left( \
 
 %Ej4
 \section{Interpolación}
-
-%Ej4.1
+ j4.1
 \subsection{Interpolación Lineal a Trozos}
 
 
