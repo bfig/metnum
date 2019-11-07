@@ -225,6 +225,20 @@ Usando la condición inicial $y(1/2) = 0$ se halla que $k = -\frac{d}{c}\left( \
 %Ej3.2
 \subsection{Métodos de Euler}
 % Euler hacia adelante %
+En el método de Euler hacia adelante se aproxima la derivada en el punto $x_{k}$ mediante el cociente entre la diferencia de los pasos consecutivos $y_{k+1}$ e $y_{k}$ y el paso $h$.
+
+Entonces se tiene la iteración:
+\begin{cases}
+    y_{k+1} = y_k + hf(x_{k},y_{k}) \\
+    y_0 = y_{inicial}
+\end{cases}\\
+con $x_{k} = x_{0} + kh$ con  $h>0$ fijo \\
+Para nuestro caso tenemos:
+\begin{align*}
+    y_{k+1} &= y_k + hf(x_{k},y_{k}) \\
+    &= y_k + h\left( \frac{d}{x_{k}^3} - \frac{c}{x_{k}^2}y_{k} \right)
+\end{align*}\\
+
 
 El método de Euler hacia atrás estima la derivada en el punto $x_{n+1}$ imponiendo $y'(x_{n+1}) = \frac{y_{n+1} - y_n}{h} = f(x_{n+1},y_{n+1})$.
 Entonces se tiene la iteración:
@@ -246,7 +260,9 @@ Despejando $y_{k+1}$ se obtiene:
     y_{k+1} = \frac{y_k + \frac{hd}{x_{k+1}^3}}{1 + \frac{hc}{x_{k+1}^2}}
     % otra forma menos compacta: %
     %y_{k+1} = \left( \frac{1}{1 + \frac{hc}{x_{k+1}^2}} \right) \left( y_k + \frac{hd}{x_{k+1}^3}\right)%
-\end{equation}.
+\end{equation}.\\
+Estabilidad numérica \\
+Un método es numéricamente estable si la diferencia entre la solución y la solución numérica se mantiene acotada al crecer las iteraciones.
 
 %Ej3.3
 \subsection{Implementación de los Métodos de Eueler}
