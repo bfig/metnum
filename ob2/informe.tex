@@ -7,7 +7,7 @@
 %\usepackage{graphics}
 \usepackage{pst-all}
 \usepackage{graphicx}
-
+\usepackage{subfig}
 \usepackage{amsfonts}
 \usepackage{amssymb} % ADDED
 \usepackage{times}
@@ -30,7 +30,6 @@
 \usetikzlibrary{shapes,snakes}
 \usepackage{graphicx}
 %---------------
-\usepackage{subfigure}
 \usepackage{mathtools}
 \usepackage{booktabs}
 \usepackage{hyperref}
@@ -184,7 +183,7 @@ F_k = ||  F(k) + \Delta F(k)\Delta_{c,p} - Y + o(\Delta_{c,p}^2)||^2_2\\
 \end{equation*}
 Haciendo los siguientes cambios de variable obtenemos una secuencia de PMCL que podemos resolver y encontrar soluciones progresivamente mejores
 \begin{align*}
-&F_{k_i} \equiv || F(k_i) + \Delta F(k_i)\Delta_{c,p} - Y||^2_2\\
+&F_{k_i} \simeq || F(k_i) + \Delta F(k_i)\Delta_{c,p} - Y||^2_2\\
 &Y_{k_i} = Y - F(k_i) \\
 &k_{i+1} = k_i + \min_{\Delta_{c,p}} || \Delta F(k_i)\Delta_{c,p} - Y_{k_i} ||^2_2
 \end{align*}
@@ -276,6 +275,9 @@ Despejando $y_{k+1}$ se obtiene:
 Estabilidad numérica \\
 Un método es numéricamente estable si la diferencia entre la solución y la solución numérica se mantiene acotada al crecer las iteraciones.
 
+%TODO
+% Gráficas y explicación de región de estabilidad para euler FW y BW
+
 %Ej3.3
 \subsection{EDO - Implementación de los Métodos de Eueler}
 
@@ -302,15 +304,46 @@ gráfica mas suave en Octave. Esto se presentará en Interpolación.
 %Ej4.1
 \subsection{Interpolación Lineal a Trozos}
 
+%TODO
+%TEORICO INTERPOLACION
 
 %Ej4.2
 \subsection{Interpolación con Splines Cúbicos}
 
+%TODO
+%TEORICO INTERPOLACION SPLINES
+\section{Estudio experimental}
+\subsection{Mïnimos Cuadrados}
+Ecuaciones normales
+\clearpage
 
-
+\begin{figure}%
+    \centering
+    \subfloat[Visualización exponencial]{{\includegraphics[width=6.25cm]{eng1expmc.png} }}%
+    \qquad
+    \subfloat[Visualización lineal]{{\includegraphics[width=6.25cm]{eng1linealmc.png} }}%
+    \caption{Visualización de la función g1 exponencial y lineal por método de ecuaciones normales}%
+    \label{fig:example}%
+\end{figure}
+\begin{figure}%
+    \centering
+    \subfloat[$g1(x)$]{{\includegraphics[width=6.25cm]{g1mc.png} }}%
+    \qquad
+    \subfloat[$g2(x)$]{{\includegraphics[width=6.25cm]{g2mc.png} }}%
+    \caption{Ajuste por mínimos cuadrados de las funciones $g1$ y $g2$ por método de Gauss Newton}%
+    \label{fig:example}%
+\end{figure}
+\begin{figure}%
+    \centering
+    \subfloat[Ajuste por métodos lineales y ode45]{{\includegraphics[width=6.25cm]{ecdif.png} }}%
+    \qquad
+    \subfloat[Resultados de interpolación de ode45, lineal y spline cúbica]{{\includegraphics[width=6.25cm]{interpol.png} }}%
+    \caption{}
+    \label{fig:example}%
+\end{figure}
 
 \clearpage
-\section{Conclusions}\label{Conclusiones}
+\section{Conclusiones}\label{Conclusiones}
 
 %Ej2.3
 \subsection{Comparación - PMCNL}
