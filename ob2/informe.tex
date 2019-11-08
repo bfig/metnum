@@ -102,13 +102,13 @@ PMCL, PMCNL, Ecuaciones Normales, Descomposición QR, Gauss-Newton, EDO, Euler, 
 
 \section{Introdución}\label{intro}
 %Ej2
-Se presnetan dos tablas de mediciones para las funciones no lineales $g_1$ y $g_2$ 
+Se presentan dos tablas de mediciones para las funciones no lineales $g_1$ y $g_2$ 
 
 
 se definen :\\
 $g_1(x)=c x^{-p} $ y $g_2(x)=d x^{-q} $
 
-se convienten los problemas a PMCL y se resuven con método de Ecuaciones Normales y método de descomposición QR. Se resuelve el PMCNL con el método de Gauss-Newton.
+se convierten los problemas a PMCL y se resuelven a través del método de Ecuaciones Normales y método de descomposición QR, al igual que se resuelve de manera directa el PMCNL con el método de Gauss-Newton.
 
 %Ej3
 Se busca resolver la ecuación diferencial:
@@ -122,13 +122,12 @@ para ello se resuelve de forma analítica, con métodos de Euler (hacia adelante
 
 %Ej4
 Se realiza interpolación utilizando método Lineal a Trozos y Splines Cúbicos.
-\section{Methodology}\label{AA}
+\section{Metodología}\label{AA}
 
 %Ej2.1
 \subsection{PMCNL - Transformación a PMCL}
 El modelo de ambas funciones tiene la forma $y = cx^{-p}$. Esta puede transformarse en una relación
-lineal aplicando un logaritmo a ambos lados de la expresión de esta forma, $log(y) = log(cx^{-p})$.
-Por propiedades de los logaritmos, la expresión se reduce a $log(y) = log(c) + (-p)log(x)$.
+lineal aplicando un logaritmo a ambos lados de la expresión de esta forma, $log(y) = log(cx^{-p}) = log(c) + (-p)log(x)$.
 Aplicando cambios de variable apropiados, se obtiene la relación lineal $Y = c_2 + c_1X$.
 
 Se busca el vector $C$ de coeficientes que minimizá $||AC - Y||^2_2$,
@@ -236,10 +235,12 @@ Usando la condición inicial $y(1/2) = 0$ se halla que $k = -\frac{d}{c}\left( \
 En el método de Euler hacia adelante se aproxima la derivada en el punto $x_{k}$ mediante el cociente entre la diferencia de los pasos consecutivos $y_{k+1}$ e $y_{k}$ y el paso $h$.
 
 Entonces se tiene la iteración:
-`\begin{cases}
+\begin{equation*}
+\begin{cases}
     y_{k+1} = y_k + hf(x_{k},y_{k}) \\
     y_0 = y_{inicial}
 \end{cases}\\
+\end{equation*}
 con $x_{k} = x_{0} + kh$ con  $h>0$ fijo \\
 Para nuestro caso tenemos:
 \begin{align*}
@@ -250,10 +251,12 @@ Para nuestro caso tenemos:
 
 El método de Euler hacia atrás estima la derivada en el punto $x_{n+1}$ imponiendo $y'(x_{n+1}) = \frac{y_{n+1} - y_n}{h} = f(x_{n+1},y_{n+1})$.
 Entonces se tiene la iteración:
+\begin{equation*}
 \begin{cases}
     y_{k+1} = y_k + hf(x_{k+1},y_{k+1}) \\
     y_0 = y_{inicial}
 \end{cases}
+\end{equation*}
 Debido a que $y_{k+1}$ aparece en ambos lados de la ecuación, este es un método implícito. Sin embargo, si
 $f$ es lineal en $y$, se puede obtener una formulación explicita.
 
@@ -307,7 +310,7 @@ gráfica mas suave en Octave. Esto se presentará en Interpolación.
 
 
 \clearpage
-\section{Estudio Experimental}\label{Comparison}
+\section{Conclusions}\label{Conclusiones}
 
 %Ej2.3
 \subsection{Comparación - PMCNL}
@@ -327,12 +330,15 @@ Conforme los errores sean mayores, el PMCL simplificado va a dar soluciones que 
 
 %Ej3.5
 \subsection{Comparación - EDO}
+En la figura \ref{}, se ven las graficas de los metodos de Euler y Runge-Kutta junto con la solucion analitica. Se puede observar que para el paso elegido, los metodos de Euler hacia adelante y hacia atras envuelven la analitica, acercandose mas conforme se achica este. En cambio, la solucion dada por Runge-Kutta se aproxima mucho mas a la analitica con menos pasos, dado que ode45, siendo un metodo de orden 5, tiene un error proporcionalmente mucho menor en cada paso.
+
+En general, Euler hacia adelante tiene la ventaja de usar una expresion explicita para la iteracion, pero con la desventaja de tener una region de estabilidad pequeña. Por otro lado, Euler hacia atras usa una expresion implicita para la iteracion con una region de estabilidad mas grande. En el caso tratado, se pierde la desventaja dado que se puede reformular la expresion implicita como una explicita, dando como resultado que sea mas apto Euler hacia atras que Euler hacia adelante
 
 %Ej4.3
 \subsection{Comparación - Interpolación}
+Como se ve en las graficas de la figura \ref{}, la interpolacion con splines cúbicos queda por sobre la curva de la solucion analitica, en cambio la interpolacion a trozos muestra un error mayor en los puntos intermedios.
+En lo que se refiere a ventajas y desventajas, en la interpolacion a trozos, es mucho mas facil actualizar la funcion interpolante luego de agregar puntos nuevos, pero no da una funcion derivable en todo punto, mientras que en splines cubicos si. Se podrian combinar propiedades de ambos enfoques realizando, para obtener el valor de la funcion en un punto intermedio de un segmento, un spline cubico usando una serie de puntos dato cercanos al segmento.
 
-
-\section{Conclusions}\label{Conclusions}
 \clearpage
 \printbibliography
 \end{document}\grid
