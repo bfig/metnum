@@ -343,9 +343,23 @@ gráfica mas suave en Octave. Esto se presentará en Interpolación.
 %TEORICO INTERPOLACION SPLINES
 \section{Estudio experimental}
 \subsection{Mïnimos Cuadrados}
-Ecuaciones normales
+Las funciones son $g_1(x)=c x^{-p} $ y $g_2(x)=d x^{-q} $ con $c,d \in \mathbb{R}$ y $p,q \in \mathbb{Z^+}$
+Los errores se calculan como $||Y_{calc} - Y ||^2_2$, donde $Y_{calc} = [cx_1^{-p} \dots cx_{16}^{-p}]^t$ con $p$ entero.
+\begin{table}[h!]
+    \begin{center}
+      \caption{Resultados mínimos cuadrados.}
+      \label{tab:table1}
+      \begin{tabular}{l|S|r} % <-- Changed to S here.
+        \textbf{Método} & \textbf{c} & \textbf{p} & \textbf{error $g_1$} & \textbf{d} & \textbf{q} & \textbf{error $g_2$} \\
+        \hline
+        Ecs. Normales & 0.96140 & 1.96810 $\approx 2$ & 0.14807 & 1.9598 & 3.0175 $\approx 3$ & 0.43089 \\
+        Descomp. QR   & 0.96140 & 1.96812 $\approx 2$ & 0.14807 & 1.9598 & 3.0175 $\approx 3$ & 0.43089 \\
+        Gauss-Newton  & 0.96750 & 2.01928 $\approx 2$ & 0.14298 & 1.9949 & 3.0063 $\approx 3$ & 0.25379 \\
+      \end{tabular}
+    \end{center}
+  \end{table}
 \clearpage
-
+Debido a que Ecuaciones Normales y Descomposición QR tienen coeficientes iguales, se adjunta solo un set de gráficas para estos.
 \begin{figure}%
     \centering
     \subfloat[Visualización exponencial]{{\includegraphics[width=6.25cm]{eng1expmc.png} }}%
@@ -354,6 +368,7 @@ Ecuaciones normales
     \caption{Visualización de la función g1 exponencial y lineal por método de ecuaciones normales}%
     \label{fig:example}%
 \end{figure}
+
 \begin{figure}%
     \centering
     \subfloat[$g1(x)$]{{\includegraphics[width=6.25cm]{g1mc.png} }}%
@@ -362,14 +377,41 @@ Ecuaciones normales
     \caption{Ajuste por mínimos cuadrados de las funciones $g1$ y $g2$ por método de Gauss Newton}%
     \label{fig:example}%
 \end{figure}
-\begin{figure}%
-    \centering
-    \subfloat[Ajuste por métodos lineales y ode45]{{\includegraphics[width=6.25cm]{ecdif.png} }}%
-    \qquad
-    \subfloat[Resultados de interpolación de ode45, lineal y spline cúbica]{{\includegraphics[width=6.25cm]{interpol.png} }}%
-    \caption{}
-    \label{fig:example}%
+
+\subsection{Ecuaciones Diferenciales}
+Usando los valores de los coeficientes dados por Gauss-Newton (que obtuvo el menor error), se construyen las gráficas
+con la solución de la ecuación diferencial mediante los métodos de Euler y Runge-Kutta con ode45.
+Para los métodos de Euler se eligió un paso $h = 0.01$ de forma demostrativa. Este paso da lugar a un error apreciable en
+la solución, que sin embargo es acotado y por tanto dentro de la región de estabilidad tal como se ve en la figura \ref{fig:error_euler}.
+\begin{figure}
+    \includegraphics[width=\linewidth]{ecdif.png}
+    \caption{Gráficas de los distintos métodos de resolución de ODEs.}
+    \label{fig:ecdif}
 \end{figure}
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{error_euler.png}
+    \caption{Evolución de $(y_{analitica} - y_{euler})^2$.}
+    \label{fig:error_euler}
+\end{figure}
+
+%\begin{figure}%
+%    \centering
+%    \subfloat[Ajuste por métodos lineales y ode45]{{\includegraphics[width=6.25cm]{ecdif.png} }}%
+%    \qquad
+%    \subfloat[Resultados de interpolación de ode45, lineal y spline cúbica]{{\includegraphics[width=6.25cm]{interpol.png} }}%
+%    \caption{}
+%    \label{fig:example}%
+%\end{figure}
+
+\subsection{Interpolación}
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{interpol.jpg}
+    \caption{Interpolación (lineal y spline cúbica) de los datos de ode45 comparados con la sol. analítica.}
+    \label{fig:interpol}
+\end{figure}
+
 
 \clearpage
 \section{Conclusiones}\label{Conclusiones}
