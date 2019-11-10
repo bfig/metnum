@@ -283,10 +283,12 @@ calculada por la maquina $\overline{y}_k$, su diferencia $\overline{E}_k = \over
 La región de estabilidad asociada a un método dado se define como los puntos $z = hq$ del plano complejo tales que 
 la sucesión ${y_n}$, generada por el método numérico aplicado a el problema test, se mantiene acotada con $n$.
 El problema test se define como el problema de valores iniciales:
-$(PT)$\begin{cases}
+\begin{equation*}
+\begin{cases}
     y' = qy \\
     y(0) = 1
 \end{cases}
+\end{equation*}
 
 Euler hacia adelante:
 Aplicando el método al problema test se tiene que:
@@ -365,7 +367,7 @@ Los errores se calculan como $||Y_{calc} - Y ||^2_2$, donde $Y_{calc} = [cx_1^{-
     \begin{center}
       \caption{Resultados mínimos cuadrados.}
       \label{tab:table1}
-      \begin{tabular}{l|S|r} % <-- Changed to S here.
+      \begin{tabular}{c|c|c|c|c|c|c|c|c} % <-- Changed to S here.
         \textbf{Método} & \textbf{c} & \textbf{p} & \textbf{error $g_1$} & \textbf{d} & \textbf{q} & \textbf{error $g_2$} \\
         \hline
         Ecs. Normales & 0.96140 & 1.96810 $\approx 2$ & 0.14807 & 1.9598 & 3.0175 $\approx 3$ & 0.43089 \\
@@ -422,11 +424,6 @@ la solución, que sin embargo es acotado y por tanto dentro de la región de est
 
 \subsection{Interpolación}
 
-\begin{figure}
-    \includegraphics[width=\linewidth]{interpol.jpg}
-    \caption{Interpolación (lineal y spline cúbica) de los datos de ode45 comparados con la sol. analítica.}
-    \label{fig:interpol}
-\end{figure}
 
 
 \clearpage
