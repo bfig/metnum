@@ -333,8 +333,14 @@ gráfica mas suave en Octave. Esto se presentará en Interpolación.
 %Ej4.1
 \subsection{Interpolación Lineal a Trozos}
 
-%TODO
-%TEORICO INTERPOLACION
+%TEORICO INTERPOLACION lineal a trozos
+El problema a resolver es encontrar una función $f(x)$ desconocida a partir de un conjuntos de puntos que son datos: $ \left \{ (x_i,y_i): i=0,...,n \right \} $ tales que $f(x_i) =y_i$ \\
+El objetivo es encontrar buenas aproximaciones de  $f(x)$ imponiendo que esta aproximación pase por todos los puntos dato.
+
+Para el caso de interpolación lineal a trozos lo que se hace es unir los puntos que son dato trazando una recta para cada par de puntos consecutivos, para ello se utiliza la ecuación de la recta, la recta es válida en el intervalo $\left [ x_i,x_{i+1} \right ]$\\
+$y=\frac{y_{i+1}-y_i}{x_{i+1}-x_i}(x-x_i)+y_i$\\
+
+considerando $h$ la distancia entre los $x_i$ el error es $O(h^{2})$
 
 %Ej4.2
 \subsection{Interpolación con Splines Cúbicos}
