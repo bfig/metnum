@@ -345,8 +345,18 @@ considerando $h$ la distancia entre los $x_i$ el error es $O(h^{2})$
 %Ej4.2
 \subsection{Interpolación con Splines Cúbicos}
 
-%TODO
 %TEORICO INTERPOLACION SPLINES
+
+Interpolación con splines cúbicos une cada par de punto de los dados con un polinomio cúbico $s_i(x)$   (a diferencia con lineal a trozos que uníamos los puntos con rectas).\\
+A estos polinomios se impondrá los extremos por los puntos del intervalo y además que tenga una pendiente y concavidad tal que se solapen con la pendiente y concavidad del próximo polinomio, el objetivo es obtener una curva dos veces derivable en todos los puntos.
+Se le llama Spline a un polinomio interpolante cúbico a trozos con derivadas primeras y segundas continuas.
+Dos splines de intervalos consecutivos quedan relacionados por las siguientes ecuaciones:\\
+- $s_i(x_i) = y_{i-1} \  \  \ 1\leq  i \leq n$\\
+- $s_{i-1}(x_i) = y_{i} \  \  \ 1\leq  i \leq n$\\
+- $s'_{i-1}(x_i) = s'_{i}(x_i) \  \  \ 1\leq  i \leq n$\\
+- $s''_{i-1}(x_i) = s''_{i}(x_i)` \  \  \ 1\leq  i \leq n$\\
+
+cada spline se puede ver como un polinomio cúbico a trozos de Hermite, de esta forma entre cada par de puntos consecutivos tenemos un polinomio cúbico con 4 parámetos, para n puntos tenemos un total de 4n incógnitas.
 \section{Estudio experimental}
 \subsection{Mïnimos Cuadrados}
 Las funciones son $g_1(x)=c x^{-p} $ y $g_2(x)=d x^{-q} $ con $c,d \in \mathbb{R}$ y $p,q \in \mathbb{Z^+}$
