@@ -50,12 +50,12 @@ endfunction
 
 % Calculo del error minimizado:
 PC = PMCNL([1;1],X,Y1,10);
-p = PC(1);
+p = round(PC(1));
 c = PC(2);
 error_g1 = sum((c*X.^(-p) - Y1).^2);
 
 QD = PMCNL([1;1],X,Y2,10);
-q = QD(1);
+q = round(QD(1));
 d = QD(2);
 error_g2 = sum((d*X.^(-q) - Y2).^2);
 
