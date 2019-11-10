@@ -17,7 +17,7 @@ A = [Xtransf ones(n,1)];
 
 C=(A' * A) \ (A' * Ytransf);
 
-p= - C(1)
+p= - round(C(1))
 c= exp(C(2))
 
 % Valor minimizado: ||AX - Y||^2
