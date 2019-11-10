@@ -230,8 +230,12 @@ Usando la condición inicial $y(1/2) = 0$ se halla que $k = -\frac{d}{c}\left( \
 
 %Ej3.2
 \subsection{EDO - Métodos de Euler}
+
 % Euler hacia adelante %
-En el método de Euler hacia adelante se aproxima la derivada en el punto $x_{k}$ mediante el cociente entre la diferencia de los pasos consecutivos $y_{k+1}$ e $y_{k}$ y el paso $h$.
+En el método de Euler hacia adelante estima la derivada en el punto $x_{n}$ mediante el cociente entre la diferencia de los pasos consecutivos $y_{n+1}$ e $y_{n}$ y el paso $h$. Es un método explícito.\\
+$y'(x_{n}) = \frac{y_{n+1} - y_n}{h} = f(x_{n},y_{n})$\\
+despejando:
+$y_{n+1} = y_n + hf(x_{n},y_{n})$ \\
 
 Entonces se tiene la iteración:
 \begin{equation*}
