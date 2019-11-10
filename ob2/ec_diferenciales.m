@@ -15,19 +15,19 @@ q = 3;
 a = 0.5;
 b = 2;
 y0 = 0;
-% calculo paso h dentro de region de estabilidad.
-h = 0.015 ; % VALOR PROVISORIO %
+% paso h
+h = 0.01;
 N = ceil((b-a)/h);
 % Recalculo h
 h = (b-a)/N;
 
-x_exacta = linspace(a,b,100);
+x_exacta = linspace(a,b,100)';
 % sol analitica con p = 2 y q = 3:
 k = (-d/c)*(1/c + 2)*exp(-2*c); % obtenido con la cond inicial.
 y_exacta = d/c^2 + d./(c*x_exacta) + k*exp(c./x_exacta);
 
 % Euler hacia atras:
-x = linspace(a,b,N);
+x = linspace(a,b,N)';
 y_EA = zeros(length(x),1);
 y_EA(1) = y0;
 for i = 2:length(x);
@@ -68,7 +68,23 @@ axis ([a b])
 title ("Sol de la EDO");
 xlabel ("x");
 ylabel ("y");
-hold off
 legend_text = legend ("Sol Analitica", "Euler hacia adelante", "Euler hacia atras", "Runge-Kuta");
 legend (legend_text, "location", "southeast");
+hold off
 % -----------------------------------------------------------------------------------
+
+% Evolucion de los errores de euler %
+figure(2)
+error_E = (d/c^2 + d./(c*x) + k*exp(c./x) - y_E).^2;
+error_EA = (d/c^2 + d./(c*x) + k*exp(c./x) - y_EA).^2;
+% Error de Euler hacia adelante
+plot(x,error_E,"r")
+hold on
+% Error de Euler hacia atras
+plot(x,error_EA,"b")
+%title ("Evolucion del error");
+xlabel ("x");
+ylabel ("Error^2");
+legend_text = legend ("Euler hacia adelante", "Euler hacia atras");
+legend (legend_text, "location", "southeast");
+hold off
