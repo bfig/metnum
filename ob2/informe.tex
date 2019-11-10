@@ -273,7 +273,32 @@ Despejando $y_{k+1}$ se obtiene:
 \end{equation}.\\
 
 Estabilidad numérica \\
-Un método es numéricamente estable si la diferencia entre la solución y la solución numérica se mantiene acotada al crecer las iteraciones.
+Un método es numéricamente estable si dada la solución de la ecuación de diferencias $y_k$ dada por el método y dicha solución
+calculada por la maquina $\overline{y}_k$, su diferencia $\overline{E}_k = \overline{y}_k - y_k$ se mantiene acotada al crecer k.
+
+La región de estabilidad asociada a un método dado se define como los puntos $z = hq$ del plano complejo tales que 
+la sucesión ${y_n}$, generada por el método numérico aplicado a el problema test, se mantiene acotada con $n$.
+El problema test se define como el problema de valores iniciales:
+$(PT)$\begin{cases}
+    y' = qy \\
+    y(0) = 1
+\end{cases}
+
+Euler hacia adelante:
+Aplicando el método al problema test se tiene que:
+$y_{n+1} = y_n + h(qy_n) = (1 + hq)y_n$
+Desarrollando la recurrencia se llega a que:
+$y_{n+1} = (1 + hq)\times (1 + hq)y_{n-1} = \dots = (1 + hq)^{n+1}y_0$
+Para que $\{y_n\}$ este acotado, $z = hq$ debe ser tal que $|1 + hq| <1$, dado que $|y_n| = |1 + hq|^n|y_0|$
+Por tanto, la región de estabilidad en el plano complejo esta dada por $R_{euler} = \{hq \in \mathbb{C}:|1 + hq| \leq 1\}$
+
+Euler hacia atrás:
+Se aplica el método al problema test para obtener:
+$y_{n+1} = y_n + h(qy_{n+1}) \Rightarrow y_{n+1}(1 - hq) = y_n \Rightarrow y_{n+1} = \frac{y_n}{1 - hq}$
+Se desarrolla la recurrencia hasta $y_0$
+$y_{n+1} = \frac{y_n}{1 - hq} = \frac{y_{n-1}}{(1 - hq)^2} = \dots = \frac{y_{n-1}}{(1 - hq)^{n+1}}$
+Para que $\{y_n\}$ este acotado, $z = hq$ debe ser tal que $\frac{1}{|1 - hq|} \leq 1 \iff |1 - hq| \geq 1$
+Por lo que la región de estabilidad en el plano complejo esta dada por $R_{EA} = \{hq \in \mathbb{C}:|1 - hq| \geq 1\}$
 
 %TODO
 % Gráficas y explicación de región de estabilidad para euler FW y BW
