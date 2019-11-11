@@ -98,15 +98,18 @@ Este informe presenta resolución de problemas utilizando distintos métodos y c
 PMCL, PMCNL, Ecuaciones Normales, Descomposición QR, Gauss-Newton, EDO, Euler, Estabilidad, Runge-Kutta, Interpolación, Lineal a trozos, Splines Cúbicos.
 \end{keyword}
 \end{frontmatter}
-
+\clearpage
 \section{Introdución}\label{intro}
 %Ej2
-Se presentan dos tablas de mediciones para las funciones no lineales $g_1$ y $g_2$ \\
+Se presentan dos tablas de mediciones \ref{fig:datos} para las funciones no lineales $g_1$ y $g_2$ 
 \begin{figure}
-    \includegraphics[width=\linewidth]{grillaini.png}
+    \centering
+    \includegraphics[width=8.25cm]{grillaini.png}
     \caption{Datos dados}
     \label{fig:datos}
-\end{figure}\\
+\end{figure}
+
+
 
 se definen :\\
 $g_1(x)=c x^{-p} $ y $g_2(x)=d x^{-q} $
@@ -364,6 +367,7 @@ Dos splines de intervalos consecutivos quedan relacionados por las siguientes ec
 - $s''_{i-1}(x_i) = s''_{i}(x_i)` \  \  \ 1\leq  i \leq n$\\
 
 cada spline se puede ver como un polinomio cúbico a trozos de Hermite, de esta forma entre cada par de puntos consecutivos tenemos un polinomio cúbico con 4 parámetos, para n puntos tenemos un total de 4n incógnitas.
+
 \section{Estudio experimental}
 \subsection{Mínimos Cuadrados}
 Las funciones son $g_1(x)=c x^{-p} $ y $g_2(x)=d x^{-q} $ con $c,d \in \mathbb{R}$ y $p,q \in \mathbb{Z^+}$
@@ -381,7 +385,7 @@ Los errores se calculan como $||Y_{calc} - Y ||^2_2$, donde $Y_{calc} = [cx_1^{-
       \end{tabular}
     \end{center}
   \end{table}
-\clearpage
+
 Debido a que Ecuaciones Normales y Descomposición QR tienen coeficientes iguales, se adjunta solo un set de gráficas para estos.
 \begin{figure}%
     \centering
