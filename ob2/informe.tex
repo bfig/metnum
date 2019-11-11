@@ -89,7 +89,7 @@ sorting=ynt
 \begin{abstract}
 \setlength{\parindent}{12pt}
 Este informe presenta resolución de problemas utilizando distintos métodos y comparando cada uno de ellos, está organizado según tres temas:\\
-    - Problema de mínimos cuadardos no lineal(PMCNL) utilizando los métodos de Ecuaciones Normales, descomposición QR y Gauss-Newton luego se discute las ventajas y desventajas evaluando cual es el mejor método para este caso.\\
+    - Problema de mínimos cuadardos no lineal(PMCNL) utilizando los métodos de Ecuaciones Normales, descomposición QR y Gauss-Newton, junto a la discusión de ventajas y desventajas de los métodos para este caso.\\
     - Problema de resolver ecuaciones diferenciales ordinarias (EDO) utilizando los métodos de Euler hacia atrás, Euler hacia adelante y Runge-Kutta, se discute ventajas y desventajas.\\
     - Problema de Interpolación utilizando los métodos de interpolación lineal a trozas y Splines Cúbicos, se discute ventajas y desventajas.
 \end{abstract}
@@ -117,10 +117,10 @@ Se busca resolver la ecuación diferencial:
         y(1/2) = 0
     \end{cases}
 \end{equation*}
-para ello se resuelve de forma analítica, con métodos de Euler (hacia adelante y hacia atrás) y método de Runge-Kutta.
+para ello se resuelve de forma analítica (es una ecuación con una solución de forma cerrada), con métodos de Euler (hacia adelante y hacia atrás) y con un método de Runge-Kutta de paso variable (ode45).
 
 %Ej4
-Se realiza interpolación utilizando método Lineal a Trozos y Splines Cúbicos.
+Se realiza interpolación de los resultados tanto lineal a trozos como con splines cúbicos.
 \section{Metodología}\label{AA}
 
 %Ej2.1
@@ -312,6 +312,7 @@ Por lo que la región de estabilidad en el plano complejo esta dada por $R_{EA} 
 %Ej3.3
 \subsection{EDO - Implementación de los Métodos de Eueler}
 
+Ver código.
 
 %Ej3.4
 \subsection{EDO - Método de Runge-Kutta}
@@ -360,7 +361,7 @@ Dos splines de intervalos consecutivos quedan relacionados por las siguientes ec
 
 cada spline se puede ver como un polinomio cúbico a trozos de Hermite, de esta forma entre cada par de puntos consecutivos tenemos un polinomio cúbico con 4 parámetos, para n puntos tenemos un total de 4n incógnitas.
 \section{Estudio experimental}
-\subsection{Mïnimos Cuadrados}
+\subsection{Mínimos Cuadrados}
 Las funciones son $g_1(x)=c x^{-p} $ y $g_2(x)=d x^{-q} $ con $c,d \in \mathbb{R}$ y $p,q \in \mathbb{Z^+}$
 Los errores se calculan como $||Y_{calc} - Y ||^2_2$, donde $Y_{calc} = [cx_1^{-p} \dots cx_{16}^{-p}]^t$ con $p$ entero.
 \begin{table}[h!]
@@ -443,17 +444,17 @@ entonces
 &\frac{\delta Err_{log}}{\delta Y_i} = 2\frac{log(Y_i)-log(X_i)}{Y_i}\\
 \end{align*}
 
-Conforme los errores sean mayores, el PMCL simplificado va a dar soluciones que valoren menos el error puntual en proporción en el caso de los logaritmos. Por otro lado, es mucho más fácil de calcular con logaritmos. Una cosa que se podría hacer para un problema genérico del estilo es usar primero el problema simplificado con logaritmos y después usar Newton Raphson para llegar a una solución al problema inicial.
+Conforme los errores sean mayores, el PMCL simplificado va a dar soluciones que valoren menos el error puntual en proporción en el caso de los logaritmos. Por otro lado, es mucho más fácil de calcular con logaritmos. Una cosa que se podría hacer para un problema genérico del estilo es usar primero el problema simplificado con logaritmos para obtener un punto de partida que luego usaríamos con Newton Raphson para llegar a una solución al problema inicial.
 
 %Ej3.5
 \subsection{Comparación - EDO}
-En la figura \ref{}, se ven las graficas de los metodos de Euler y Runge-Kutta junto con la solucion analitica. Se puede observar que para el paso elegido, los metodos de Euler hacia adelante y hacia atras envuelven la analitica, acercandose mas conforme se achica este. En cambio, la solucion dada por Runge-Kutta se aproxima mucho mas a la analitica con menos pasos, dado que ode45, siendo un metodo de orden 5, tiene un error proporcionalmente mucho menor en cada paso.
+En la figura \ref{fig:ecdif}, se ven las graficas de los metodos de Euler y Runge-Kutta junto con la solucion analitica. Se puede observar que para el paso elegido, los metodos de Euler hacia adelante y hacia atras envuelven la analitica, acercandose mas conforme se achica este. En cambio, la solucion dada por Runge-Kutta se aproxima mucho mas a la analitica con menos pasos, dado que ode45, siendo un metodo de orden 5, tiene un error proporcionalmente mucho menor en cada paso.
 
 En general, Euler hacia adelante tiene la ventaja de usar una expresion explicita para la iteracion, pero con la desventaja de tener una region de estabilidad pequeña. Por otro lado, Euler hacia atras usa una expresion implicita para la iteracion con una region de estabilidad mas grande. En el caso tratado, se pierde la desventaja dado que se puede reformular la expresion implicita como una explicita, dando como resultado que sea mas apto Euler hacia atras que Euler hacia adelante
 
 %Ej4.3
 \subsection{Comparación - Interpolación}
-Como se ve en las graficas de la figura \ref{}, la interpolacion con splines cúbicos queda por sobre la curva de la solucion analitica, en cambio la interpolacion a trozos muestra un error mayor en los puntos intermedios.
+Como se ve en las graficas de la figura \ref{fig:error_euler}, la interpolacion con splines cúbicos queda por sobre la curva de la solucion analitica, en cambio la interpolacion a trozos muestra un error mayor en los puntos intermedios.
 En lo que se refiere a ventajas y desventajas, en la interpolacion a trozos, es mucho mas facil actualizar la funcion interpolante luego de agregar puntos nuevos, pero no da una funcion derivable en todo punto, mientras que en splines cubicos si. Se podrian combinar propiedades de ambos enfoques realizando, para obtener el valor de la funcion en un punto intermedio de un segmento, un spline cubico usando una serie de puntos dato cercanos al segmento.
 
 \clearpage
